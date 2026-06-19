@@ -1,0 +1,11 @@
+.main-layout {
+  padding-top: 64px; /* Offset for fixed navbar */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-area {
+  padding: 24px;
+  flex: 1;
+}

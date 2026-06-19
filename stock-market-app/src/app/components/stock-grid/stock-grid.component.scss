@@ -1,0 +1,25 @@
+.section-header {
+  margin-bottom: 20px;
+  
+  .title {
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: 700;
+    padding-left: 12px;
+    border-left: 4px solid var(--accent-primary);
+  }
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}

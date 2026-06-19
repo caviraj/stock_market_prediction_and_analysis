@@ -1,0 +1,21 @@
+<div class="card chart-container">
+  <div class="chart-header">
+    <div class="timeframe-tabs">
+      <button class="tab" [class.active]="activeTab === '1D'" (click)="activeTab = '1D'">1D</button>
+      <button class="tab" [class.active]="activeTab === '1W'" (click)="activeTab = '1W'">1W</button>
+      <button class="tab" [class.active]="activeTab === '1M'" (click)="activeTab = '1M'">1M</button>
+      <button class="tab" [class.active]="activeTab === '3M'" (click)="activeTab = '3M'">3M</button>
+      <button class="tab" [class.active]="activeTab === '6M'" (click)="activeTab = '6M'">6M</button>
+      <button class="tab" [class.active]="activeTab === '1Y'" (click)="activeTab = '1Y'">1Y</button>
+    </div>
+    <div class="indicator-toggles">
+      <button class="pill-toggle toggle-sma20" [class.active]="showSMA20" (click)="showSMA20 = !showSMA20">SMA 20</button>
+      <button class="pill-toggle toggle-sma50" [class.active]="showSMA50" (click)="showSMA50 = !showSMA50">SMA 50</button>
+      <button class="pill-toggle toggle-ema20" [class.active]="showEMA20" (click)="showEMA20 = !showEMA20">EMA 20</button>
+    </div>
+  </div>
+  
+  <div class="chart-area" #chartContainer>
+    <!-- Lightweight charts will be injected here -->
+  </div>
+</div>

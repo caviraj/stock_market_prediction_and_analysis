@@ -1,0 +1,11 @@
+<div class="section-header">
+  <h2 class="title">Top Stocks</h2>
+</div>
+
+<div class="grid-container" *ngIf="!loading">
+  <app-stock-card *ngFor="let stock of topStocks" [stock]="stock"></app-stock-card>
+</div>
+
+<div class="grid-container" *ngIf="loading">
+  <app-stock-card *ngFor="let i of [1,2,3,4,5,6]"></app-stock-card>
+</div>

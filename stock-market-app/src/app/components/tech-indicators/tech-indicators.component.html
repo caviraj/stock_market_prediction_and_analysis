@@ -1,0 +1,77 @@
+<div class="indicators-row" *ngIf="indicatorsData">
+  
+  <!-- RSI Card -->
+  <div class="indicator-card">
+    <div class="header">RSI (14)</div>
+    <div class="gauge-container">
+      <div class="gauge-bg"></div>
+      <div class="gauge-needle" [style.transform]="getRsiRotation(indicatorsData.rsi?.value)"></div>
+      <div class="gauge-center"></div>
+    </div>
+    <div class="value-display">
+      <span class="val">{{ indicatorsData.rsi?.value | number:'1.2-2' }}</span>
+      <span class="status" [ngClass]="{
+        'text-danger': indicatorsData.rsi?.status === 'Overbought',
+        'text-success': indicatorsData.rsi?.status === 'Oversold',
+        'text-warning': indicatorsData.rsi?.status === 'Neutral'
+      }">{{ indicatorsData.rsi?.status }}</span>
+    </div>
+  </div>
+
+  <!-- MACD Card -->
+  <div class="indicator-card">
+    <div class="header">MACD (12, 26, 9)</div>
+    <div class="macd-chart-mock">
+      <svg viewBox="0 0 100 40" preserveAspectRatio="none">
+        <!-- Histogram -->
+        <rect x="10" y="20" width="5" height="10" fill="#10B981" />
+        <rect x="20" y="15" width="5" height="15" fill="#10B981" />
+        <rect x="30" y="25" width="5" height="5" fill="#EF4444" />
+        <rect x="40" y="28" width="5" height="12" fill="#EF4444" />
+        
+        <!-- Lines -->
+        <path d="M0,20 L50,30 L100,10" fill="none" stroke="#3B82F6" stroke-width="2"/>
+        <path d="M0,25 L50,25 L100,15" fill="none" stroke="#F97316" stroke-width="2"/>
+      </svg>
+    </div>
+    <div class="value-display horizontal">
+      <span class="val">Trend:</span>
+      <span class="status font-bold" [ngClass]="indicatorsData.macd?.trend === 'Bullish' ? 'text-success' : 'text-danger'">
+        {{ indicatorsData.macd?.trend }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Bollinger Bands Card -->
+  <div class="indicator-card">
+    <div class="header">Bollinger Bands (20)</div>
+    <div class="bollinger-vis">
+      <div class="band top" [class.active]="indicatorsData.bollinger?.position === 'Above Upper'"></div>
+      <div class="price-dot" [ngClass]="{
+        'pos-top': indicatorsData.bollinger?.position === 'Above Upper',
+        'pos-mid': indicatorsData.bollinger?.position === 'Inside',
+        'pos-bot': indicatorsData.bollinger?.position === 'Below Lower'
+      }"></div>
+      <div class="band bottom" [class.active]="indicatorsData.bollinger?.position === 'Below Lower'"></div>
+    </div>
+    <div class="value-display">
+      <span class="val">{{ indicatorsData.bollinger?.position }}</span>
+    </div>
+  </div>
+
+  <!-- ATR Card -->
+  <div class="indicator-card">
+    <div class="header">ATR (Volatility)</div>
+    <div class="atr-content">
+      <div class="large-val">{{ indicatorsData.atr?.atr | number:'1.2-2' }}</div>
+      <div class="volatility-level" [ngClass]="{
+        'text-danger': indicatorsData.atr?.volatility_level === 'High',
+        'text-warning': indicatorsData.atr?.volatility_level === 'Medium',
+        'text-success': indicatorsData.atr?.volatility_level === 'Low'
+      }">
+        {{ indicatorsData.atr?.volatility_level }} Volatility
+      </div>
+    </div>
+  </div>
+
+</div>

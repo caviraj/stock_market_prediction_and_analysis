@@ -1,0 +1,112 @@
+<div class="auth-layout">
+  <div class="left-half">
+    <div class="branding">
+      <div class="logo">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 3V21H21" stroke="#0D9488" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M18 9L13.5 14L9.5 10L4 15.5" stroke="#0D9488" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M18 9H13.5V13.5" stroke="#0D9488" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h1>StockAI</h1>
+      </div>
+      <p class="tagline">AI-powered stock market analysis for smarter investing</p>
+      
+      <div class="features">
+        <div class="feature-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 6L9 17L4 12" stroke="#0D9488" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Real-time NSE/BSE data</span>
+        </div>
+        <div class="feature-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 6L9 17L4 12" stroke="#0D9488" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>LSTM price predictions</span>
+        </div>
+        <div class="feature-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 6L9 17L4 12" stroke="#0D9488" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Buy/Sell signal alerts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="right-half">
+    <div class="auth-container">
+      <div class="tabs">
+        <button class="tab-btn" [class.active]="activeTab === 'login'" (click)="switchTab('login')">Login</button>
+        <button class="tab-btn" [class.active]="activeTab === 'signup'" (click)="switchTab('signup')">Sign Up</button>
+      </div>
+      
+      <div class="error-banner" *ngIf="errorMsg">{{ errorMsg }}</div>
+
+      <!-- Login Form -->
+      <form class="auth-form" *ngIf="activeTab === 'login'" (ngSubmit)="onLogin()">
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" name="email" [(ngModel)]="loginData.email" required placeholder="you@example.com">
+        </div>
+        
+        <div class="form-group">
+          <label>Password</label>
+          <div class="input-with-icon">
+            <input [type]="showPassword ? 'text' : 'password'" name="password" [(ngModel)]="loginData.password" required placeholder="••••••••">
+            <button type="button" class="icon-btn" (click)="togglePassword()">
+              <span *ngIf="!showPassword">👁️</span>
+              <span *ngIf="showPassword">👁️‍🗨️</span>
+            </button>
+          </div>
+        </div>
+        
+        <div class="form-actions-row">
+          <label class="checkbox-label">
+            <input type="checkbox"> Remember me
+          </label>
+          <a href="#" class="forgot-link">Forgot password?</a>
+        </div>
+        
+        <button type="submit" class="submit-btn" [disabled]="loading">
+          {{ loading ? 'Logging in...' : 'Login' }}
+        </button>
+      </form>
+
+      <!-- Sign Up Form -->
+      <form class="auth-form" *ngIf="activeTab === 'signup'" (ngSubmit)="onSignup()">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" name="name" [(ngModel)]="signupData.name" required placeholder="John Doe">
+        </div>
+        
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" name="email" [(ngModel)]="signupData.email" required placeholder="you@example.com">
+        </div>
+        
+        <div class="form-group">
+          <label>Password</label>
+          <div class="input-with-icon">
+            <input [type]="showPassword ? 'text' : 'password'" name="password" [(ngModel)]="signupData.password" required placeholder="Create a password">
+            <button type="button" class="icon-btn" (click)="togglePassword()">
+              <span *ngIf="!showPassword">👁️</span>
+              <span *ngIf="showPassword">👁️‍🗨️</span>
+            </button>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <input [type]="showPassword ? 'text' : 'password'" name="confirmPassword" [(ngModel)]="signupData.confirmPassword" required placeholder="Confirm your password">
+        </div>
+        
+        <button type="submit" class="submit-btn" [disabled]="loading">
+          {{ loading ? 'Creating Account...' : 'Create Account' }}
+        </button>
+      </form>
+      
+      <p class="terms">By continuing you agree to our <a href="#">Terms of Service</a></p>
+    </div>
+  </div>
+</div>

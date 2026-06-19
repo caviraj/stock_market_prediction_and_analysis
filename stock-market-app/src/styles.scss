@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg-primary: #0D1B2A;
+  --bg-card: #162032;
+  --bg-hover: #1E3A4A;
+  
+  --accent-primary: #0D9488;
+  --accent-light: #14B8A6;
+  
+  --status-buy: #10B981;
+  --status-sell: #EF4444;
+  --status-hold: #F59E0B;
+  
+  --text-primary: #F0F4F8;
+  --text-muted: #94A3B8;
+  
+  --font-heading: 'Inter', 'Trebuchet MS', sans-serif;
+  --font-body: 'Inter', 'Calibri', sans-serif;
+  
+  --radius-card: 10px;
+  --radius-pill: 9999px;
+  --radius-button: 8px;
+  
+  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+a {
+  color: var(--accent-light);
+  text-decoration: none;
+  transition: color 0.2s;
+  
+  &:hover {
+    color: var(--accent-primary);
+  }
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-button);
+  transition: all 0.2s ease-in-out;
+}
+
+.card {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+input {
+  font-family: var(--font-body);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: #2A3B4C;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Loading Skeleton Animation */
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.skeleton {
+  animation: shimmer 2s infinite linear;
+  background: linear-gradient(to right, var(--bg-card) 4%, #1E3A4A 25%, var(--bg-card) 36%);
+  background-size: 1000px 100%;
+}
+
+/* Utilities */
+.text-success { color: var(--status-buy); }
+.text-danger { color: var(--status-sell); }
+.text-warning { color: var(--status-hold); }
+.text-muted { color: var(--text-muted); }
+.text-primary { color: var(--text-primary); }
+
+.bg-success { background-color: var(--status-buy); }
+.bg-danger { background-color: var(--status-sell); }
+.bg-warning { background-color: var(--status-hold); }

@@ -1,0 +1,45 @@
+<div class="tables-container">
+  <div class="table-wrapper">
+    <div class="table-header bg-teal">Top Gainers</div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Ticker</th>
+          <th class="text-right">Price</th>
+          <th class="text-right">Change%</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let stock of gainers; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td><a [routerLink]="['/stock', stock.ticker]" class="ticker-link">{{ stock.ticker }}</a></td>
+          <td class="text-right">Rs.{{ stock.price | number:'1.2-2' }}</td>
+          <td class="text-right text-success">+{{ stock.change_pct | number:'1.2-2' }}%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="table-wrapper">
+    <div class="table-header bg-red">Top Losers</div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Ticker</th>
+          <th class="text-right">Price</th>
+          <th class="text-right">Change%</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let stock of losers; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td><a [routerLink]="['/stock', stock.ticker]" class="ticker-link">{{ stock.ticker }}</a></td>
+          <td class="text-right">Rs.{{ stock.price | number:'1.2-2' }}</td>
+          <td class="text-right text-danger">{{ stock.change_pct | number:'1.2-2' }}%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

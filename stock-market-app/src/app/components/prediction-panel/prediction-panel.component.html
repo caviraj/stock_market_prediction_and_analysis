@@ -1,0 +1,82 @@
+<div class="prediction-panel" *ngIf="predictionData">
+  
+  <div class="forecast-card">
+    <h3 class="title">AI Price Forecast — Next 7 Days</h3>
+    
+    <div class="chart-area">
+      <!-- Minimal CSS chart placeholder -->
+      <div class="css-chart">
+        <svg viewBox="0 0 100 40" preserveAspectRatio="none" class="chart-svg">
+          <!-- Historical -->
+          <path d="M0,30 L20,25 L40,28 L50,20" fill="none" stroke="#F0F4F8" stroke-width="2"/>
+          <!-- Predicted -->
+          <path d="M50,20 L60,15 L80,18 L100,10" fill="none" stroke="#0D9488" stroke-width="2" stroke-dasharray="2,1"/>
+          <!-- Confidence Band -->
+          <path d="M50,15 L60,10 L80,13 L100,5 L100,15 L80,23 L60,20 L50,25 Z" fill="rgba(13, 148, 136, 0.15)"/>
+        </svg>
+      </div>
+    </div>
+    
+    <table class="forecast-table">
+      <thead>
+        <tr>
+          <th>Day</th>
+          <th class="text-right">Predicted Price</th>
+          <th class="text-right">Change% from today</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of forecastDays">
+          <td>{{ item.day }}</td>
+          <td class="text-right font-bold">Rs.{{ item.price | number:'1.2-2' }}</td>
+          <td class="text-right font-bold" [ngClass]="item.change_pct >= 0 ? 'text-success' : 'text-danger'">
+            {{ item.change_pct > 0 ? '+' : '' }}{{ item.change_pct | number:'1.2-2' }}%
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <div class="accuracy-bar">
+      <div class="bar-label">Model Accuracy: 78%</div>
+      <div class="track">
+        <div class="fill" style="width: 78%"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="signal-card">
+    <div class="signal-banner" [ngClass]="{
+      'bg-success text-navy': predictionData.signal === 'BUY',
+      'bg-danger text-white': predictionData.signal === 'SELL',
+      'bg-warning text-navy': predictionData.signal === 'HOLD'
+    }">
+      <div class="icon">
+        <span *ngIf="predictionData.signal === 'BUY'">★</span>
+        <span *ngIf="predictionData.signal === 'SELL'">!</span>
+        <span *ngIf="predictionData.signal === 'HOLD'">=</span>
+      </div>
+      <h2>{{ predictionData.signal }}</h2>
+    </div>
+    
+    <div class="factor-rows">
+      <div class="row">
+        <span class="label">RSI</span>
+        <span class="value text-success">45 (Neutral)</span>
+      </div>
+      <div class="row">
+        <span class="label">Volume</span>
+        <span class="value text-success">1.2x avg</span>
+      </div>
+      <div class="row">
+        <span class="label">SMA Signal</span>
+        <span class="value text-success">Golden Cross</span>
+      </div>
+      <div class="row">
+        <span class="label">Momentum</span>
+        <span class="value text-success">Positive ▲</span>
+      </div>
+    </div>
+    
+    <p class="disclaimer">AI predictions are for informational purposes only. Not financial advice.</p>
+  </div>
+</div>

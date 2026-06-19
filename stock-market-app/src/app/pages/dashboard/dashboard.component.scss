@@ -1,0 +1,20 @@
+.dashboard-layout {
+  display: flex;
+  gap: 24px;
+  
+  @media (max-width: 1024px) {
+    flex-direction: column;
+  }
+}
+
+.main-content {
+  flex: 7; /* 70% approximate */
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.sidebar {
+  flex: 3; /* 30% approximate */
+  min-width: 300px;
+}

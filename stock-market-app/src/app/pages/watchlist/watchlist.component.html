@@ -1,0 +1,35 @@
+<div class="watchlist-sidebar">
+  <div class="sidebar-header">
+    <h3 class="title">My Watchlist</h3>
+  </div>
+
+  <div class="watchlist-items" *ngIf="!loading && watchlist.length > 0">
+    <a *ngFor="let item of watchlist" [routerLink]="['/stock', item.ticker]" class="watchlist-item">
+      <div class="item-left">
+        <span class="ticker">{{ item.ticker }}</span>
+      </div>
+      <div class="item-right">
+        <div class="price-data">
+          <span class="price">{{ item.price | number:'1.2-2' }}</span>
+          <span class="change" [ngClass]="item.change_pct >= 0 ? 'text-success' : 'text-danger'">
+            {{ item.change_pct > 0 ? '+' : '' }}{{ item.change_pct | number:'1.2-2' }}%
+          </span>
+        </div>
+        <button class="remove-btn" (click)="removeFromWatchlist(item.ticker, $event)" aria-label="Remove">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </a>
+  </div>
+
+  <div class="empty-state" *ngIf="!loading && watchlist.length === 0">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M19 21L12 16L5 21V5C5 4.46957 5.21071 3.96086 5.58579 3.58579C5.96086 3.21071 6.46957 3 7 3H17C17.5304 3 18.0391 3.21071 18.4142 3.58579C18.7893 3.96086 19 4.46957 19 5V21Z" stroke="#0D9488" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <p class="text-muted">No stocks added yet. Search above to add.</p>
+  </div>
+
+  <button class="add-btn">Add to Watchlist</button>
+</div>

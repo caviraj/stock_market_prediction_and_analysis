@@ -1,0 +1,17 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart
+yfinance
+pandas
+numpy
+scikit-learn
+pandas-ta
+joblib
+pydantic
+pydantic-settings
+python-dotenv
+httpx
+aiofiles

@@ -1,0 +1,115 @@
+.stock-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-card);
+  border-radius: var(--radius-card);
+  padding: 16px;
+  border-left: 3px solid var(--accent-primary);
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  }
+  
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    
+    .title-area {
+      display: flex;
+      flex-direction: column;
+      
+      .ticker {
+        color: var(--accent-primary);
+        font-weight: 700;
+        font-size: 14px;
+      }
+      
+      .company {
+        color: var(--text-muted);
+        font-size: 11px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 150px;
+      }
+    }
+    
+    .badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: var(--radius-pill);
+      letter-spacing: 0.5px;
+      
+      &.bg-success, &.bg-warning {
+        color: var(--bg-primary); /* Navy text on green/amber */
+      }
+      &.bg-danger {
+        color: white; /* White text on red */
+      }
+    }
+  }
+  
+  .card-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    
+    .price-area {
+      .price {
+        color: var(--text-primary);
+        font-weight: 700;
+        font-size: 22px;
+        line-height: 1.2;
+      }
+      
+      .change {
+        font-size: 12px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        
+        .triangle {
+          font-size: 10px;
+        }
+      }
+    }
+    
+    .mini-chart {
+      width: 80px;
+      height: 32px;
+      
+      .sparkline-wrapper {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        
+        &.spark-positive::after {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          border-bottom: 2px solid var(--status-buy);
+          border-radius: 0 0 100% 0;
+          transform: skewY(-15deg);
+        }
+        
+        &.spark-negative::after {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          border-top: 2px solid var(--status-sell);
+          border-radius: 0 100% 0 0;
+          transform: skewY(15deg);
+        }
+      }
+    }
+  }
+}

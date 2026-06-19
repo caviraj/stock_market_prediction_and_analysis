@@ -1,0 +1,77 @@
+.tables-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 24px;
+  
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.table-wrapper {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+
+.table-header {
+  padding: 12px 16px;
+  font-weight: 700;
+  font-size: 14px;
+  color: white;
+  
+  &.bg-teal {
+    background-color: var(--accent-primary);
+  }
+  
+  &.bg-red {
+    background-color: var(--status-sell);
+  }
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  
+  th {
+    text-align: left;
+    padding: 12px 16px;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  
+  td {
+    padding: 12px 16px;
+    color: var(--text-primary);
+    font-size: 13px;
+  }
+  
+  tbody tr {
+    &:nth-child(even) {
+      background-color: rgba(0, 0, 0, 0.15); /* Alternating row */
+    }
+    
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+  }
+  
+  .ticker-link {
+    color: var(--accent-light);
+    font-weight: 600;
+    
+    &:hover {
+      color: var(--accent-primary);
+      text-decoration: underline;
+    }
+  }
+  
+  .text-right {
+    text-align: right;
+  }
+}

@@ -1,0 +1,125 @@
+.watchlist-sidebar {
+  background-color: var(--card-bg);
+  border-radius: var(--radius-card);
+  padding: 16px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  margin-bottom: 16px;
+  
+  h2 {
+    color: white;
+    font-size: 16px;
+    display: inline-block;
+    padding-bottom: 4px;
+    border-bottom: 2px solid var(--primary-accent);
+  }
+}
+
+.watchlist-items {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.watchlist-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+  .row-left {
+    .ticker {
+      color: var(--primary-accent);
+      font-weight: 700;
+      font-size: 14px;
+    }
+  }
+
+  .row-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .price-info {
+      text-align: right;
+      
+      .price {
+        color: white;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      
+      .change {
+        font-size: 11px;
+        font-weight: 600;
+      }
+    }
+
+    .remove-btn {
+      background: transparent;
+      color: var(--danger);
+      opacity: 0.7;
+      padding: 4px;
+      
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+      
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+
+  .bookmark-icon {
+    width: 32px;
+    height: 32px;
+    color: var(--primary-accent);
+    margin-bottom: 8px;
+  }
+  
+  .text-center { text-align: center; }
+  p { font-size: 12px; }
+}
+
+.mt-4 { margin-top: 16px; }
+.mt-2 { margin-top: 8px; }
+
+.add-btn {
+  width: 100%;
+  background-color: var(--primary-accent);
+  color: white;
+  font-weight: 700;
+  padding: 10px;
+  border-radius: var(--radius-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: auto;
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  &:hover {
+    background-color: var(--light-accent);
+  }
+}

@@ -1,0 +1,32 @@
+<a [routerLink]="['/stock', stock.ticker]" class="stock-card" *ngIf="stock">
+  <div class="card-header">
+    <div class="title-area">
+      <span class="ticker">{{ stock.ticker }}</span>
+      <span class="company">{{ stock.name || 'Company Name' }}</span>
+    </div>
+    <div class="badge" [ngClass]="{
+      'bg-success': stock.signal === 'BUY',
+      'bg-danger': stock.signal === 'SELL',
+      'bg-warning': stock.signal === 'HOLD'
+    }">
+      {{ stock.signal || 'HOLD' }}
+    </div>
+  </div>
+
+  <div class="card-body">
+    <div class="price-area">
+      <div class="price">Rs.{{ stock.price | number:'1.2-2' }}</div>
+      <div class="change" [ngClass]="stock.change >= 0 ? 'text-success' : 'text-danger'">
+        <span class="triangle" *ngIf="stock.change > 0">▲</span>
+        <span class="triangle" *ngIf="stock.change < 0">▼</span>
+        {{ stock.change > 0 ? '+' : '' }}{{ stock.change | number:'1.2-2' }} ({{ stock.change_pct > 0 ? '+' : '' }}{{ stock.change_pct | number:'1.2-2' }}%)
+      </div>
+    </div>
+    
+    <div class="mini-chart">
+      <div class="sparkline-wrapper" [ngClass]="stock.change >= 0 ? 'spark-positive' : 'spark-negative'"></div>
+    </div>
+  </div>
+</a>
+
+<div class="stock-card skeleton" *ngIf="!stock" style="height: 120px;"></div>

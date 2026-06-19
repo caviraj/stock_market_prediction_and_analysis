@@ -1,0 +1,47 @@
+<div class="market-strip" *ngIf="!loading">
+  <div class="chip">
+    <div class="chip-info">
+      <div class="index-name">SENSEX</div>
+      <div class="index-value">{{ marketData.sensex?.value | number:'1.2-2' }}</div>
+      <div class="index-change" [ngClass]="marketData.sensex?.change >= 0 ? 'text-success' : 'text-danger'">
+        {{ marketData.sensex?.change > 0 ? '+' : '' }}{{ marketData.sensex?.change | number:'1.2-2' }} ({{ marketData.sensex?.change_pct > 0 ? '+' : '' }}{{ marketData.sensex?.change_pct | number:'1.2-2' }}%)
+      </div>
+    </div>
+    <div class="sparkline" [ngClass]="marketData.sensex?.change >= 0 ? 'spark-up' : 'spark-down'"></div>
+  </div>
+
+  <div class="chip">
+    <div class="chip-info">
+      <div class="index-name">NIFTY 50</div>
+      <div class="index-value">{{ marketData.nifty50?.value | number:'1.2-2' }}</div>
+      <div class="index-change" [ngClass]="marketData.nifty50?.change >= 0 ? 'text-success' : 'text-danger'">
+        {{ marketData.nifty50?.change > 0 ? '+' : '' }}{{ marketData.nifty50?.change | number:'1.2-2' }} ({{ marketData.nifty50?.change_pct > 0 ? '+' : '' }}{{ marketData.nifty50?.change_pct | number:'1.2-2' }}%)
+      </div>
+    </div>
+    <div class="sparkline" [ngClass]="marketData.nifty50?.change >= 0 ? 'spark-up' : 'spark-down'"></div>
+  </div>
+
+  <div class="chip">
+    <div class="chip-info">
+      <div class="index-name">BANK NIFTY</div>
+      <div class="index-value">{{ marketData.bank_nifty?.value | number:'1.2-2' }}</div>
+      <div class="index-change" [ngClass]="marketData.bank_nifty?.change >= 0 ? 'text-success' : 'text-danger'">
+        {{ marketData.bank_nifty?.change > 0 ? '+' : '' }}{{ marketData.bank_nifty?.change | number:'1.2-2' }} ({{ marketData.bank_nifty?.change_pct > 0 ? '+' : '' }}{{ marketData.bank_nifty?.change_pct | number:'1.2-2' }}%)
+      </div>
+    </div>
+    <div class="sparkline" [ngClass]="marketData.bank_nifty?.change >= 0 ? 'spark-up' : 'spark-down'"></div>
+  </div>
+
+  <div class="chip">
+    <div class="chip-info">
+      <div class="index-name">NIFTY IT</div>
+      <div class="index-value">{{ marketData.nifty_it?.value | number:'1.2-2' }}</div>
+      <div class="index-change" [ngClass]="marketData.nifty_it?.change >= 0 ? 'text-success' : 'text-danger'">
+        {{ marketData.nifty_it?.change > 0 ? '+' : '' }}{{ marketData.nifty_it?.change | number:'1.2-2' }} ({{ marketData.nifty_it?.change_pct > 0 ? '+' : '' }}{{ marketData.nifty_it?.change_pct | number:'1.2-2' }}%)
+      </div>
+    </div>
+    <div class="sparkline" [ngClass]="marketData.nifty_it?.change >= 0 ? 'spark-up' : 'spark-down'"></div>
+  </div>
+</div>
+
+<div class="market-strip skeleton" *ngIf="loading" style="height: 56px;"></div>

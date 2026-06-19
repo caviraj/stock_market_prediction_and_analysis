@@ -1,0 +1,169 @@
+.indicators-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+  
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.indicator-card {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-card);
+  padding: 16px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  .header {
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    align-self: flex-start;
+  }
+}
+
+/* Gauge CSS */
+.gauge-container {
+  width: 100px;
+  height: 50px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 12px;
+  
+  .gauge-bg {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 10px solid #1E3A4A;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    transform: rotate(-45deg);
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+    /* Simulate zones */
+    background: conic-gradient(from 225deg, 
+      var(--status-sell) 0deg 54deg, 
+      var(--status-hold) 54deg 126deg, 
+      var(--status-buy) 126deg 180deg
+    );
+    -webkit-mask: radial-gradient(transparent 40px, black 41px);
+    mask: radial-gradient(transparent 40px, black 41px);
+  }
+  
+  .gauge-needle {
+    width: 4px;
+    height: 40px;
+    background-color: var(--text-primary);
+    position: absolute;
+    bottom: 0;
+    left: 48px;
+    transform-origin: bottom center;
+    transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 2;
+    border-radius: 2px 2px 0 0;
+  }
+  
+  .gauge-center {
+    width: 12px;
+    height: 12px;
+    background-color: var(--text-primary);
+    border-radius: 50%;
+    position: absolute;
+    bottom: -6px;
+    left: 44px;
+    z-index: 3;
+  }
+}
+
+.value-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  &.horizontal {
+    flex-direction: row;
+    gap: 8px;
+  }
+  
+  .val { font-size: 18px; font-weight: 700; color: white; }
+  .status { font-size: 12px; font-weight: 600; }
+}
+
+.macd-chart-mock {
+  width: 100%;
+  height: 50px;
+  margin-bottom: 12px;
+  
+  svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+}
+
+.bollinger-vis {
+  width: 60px;
+  height: 60px;
+  position: relative;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px 0;
+  
+  .band {
+    width: 100%;
+    height: 4px;
+    background-color: #1E3A4A;
+    border-radius: 2px;
+    
+    &.active {
+      background-color: var(--accent-primary);
+    }
+  }
+  
+  .price-dot {
+    width: 12px;
+    height: 12px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    left: 24px;
+    transition: top 0.3s;
+    
+    &.pos-top { top: 0; background-color: var(--status-sell); }
+    &.pos-mid { top: 24px; }
+    &.pos-bot { top: 48px; background-color: var(--status-buy); }
+  }
+}
+
+.atr-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  
+  .large-val {
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 4px;
+  }
+  
+  .volatility-level {
+    font-size: 13px;
+    font-weight: 600;
+  }
+}

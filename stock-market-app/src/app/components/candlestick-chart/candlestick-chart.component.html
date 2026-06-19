@@ -1,0 +1,31 @@
+<div class="chart-wrapper">
+  <div class="chart-header">
+    <div class="timeframes">
+      <button *ngFor="let tf of timeframes" 
+              class="tf-btn" 
+              [class.active]="activeTimeframe === tf"
+              (click)="setTimeframe(tf)">
+        {{ tf }}
+      </button>
+    </div>
+    
+    <div class="indicators-toggles">
+      <button class="pill-btn sma20" [class.active]="showSma20" (click)="toggleIndicator('sma20')">SMA 20</button>
+      <button class="pill-btn sma50" [class.active]="showSma50" (click)="toggleIndicator('sma50')">SMA 50</button>
+      <button class="pill-btn ema20" [class.active]="showEma20" (click)="toggleIndicator('ema20')">EMA 20</button>
+    </div>
+  </div>
+
+  <div class="chart-container" #chartContainer>
+    <!-- Tooltip -->
+    <div class="tooltip" *ngIf="tooltipData">
+      <div class="tooltip-row">
+        <span class="label">O</span> <span class="val">{{ tooltipData.open | number:'1.2-2' }}</span>
+        <span class="label">H</span> <span class="val text-success">{{ tooltipData.high | number:'1.2-2' }}</span>
+        <span class="label">L</span> <span class="val text-danger">{{ tooltipData.low | number:'1.2-2' }}</span>
+        <span class="label">C</span> <span class="val">{{ tooltipData.close | number:'1.2-2' }}</span>
+        <span class="label">Vol</span> <span class="val">{{ tooltipData.volume | number }}</span>
+      </div>
+    </div>
+  </div>
+</div>

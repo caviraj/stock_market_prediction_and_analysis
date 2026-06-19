@@ -1,0 +1,15 @@
+<ng-container *ngIf="router.url !== '/auth'">
+  <app-navbar></app-navbar>
+
+  <div class="main-layout">
+    <app-market-strip></app-market-strip>
+    
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="router.url === '/auth'">
+  <router-outlet></router-outlet>
+</ng-container>
