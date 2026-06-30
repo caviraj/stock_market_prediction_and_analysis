@@ -24,3 +24,8 @@ Thumbs.db
 *.njsproj
 *.sln
 *.sw?
+
+# Stock Market App specific database, cache, and models
+backend/stockai.db
+backend/data/
+backend/ml/saved_models/

@@ -1,82 +1,154 @@
 <div class="prediction-panel" *ngIf="predictionData">
   
-  <div class="forecast-card">
-    <h3 class="title">AI Price Forecast — Next 7 Days</h3>
+  <!-- Left Side: Forecast & Comparison -->
+  <div class="forecast-section">
     
-    <div class="chart-area">
-      <!-- Minimal CSS chart placeholder -->
-      <div class="css-chart">
-        <svg viewBox="0 0 100 40" preserveAspectRatio="none" class="chart-svg">
-          <!-- Historical -->
-          <path d="M0,30 L20,25 L40,28 L50,20" fill="none" stroke="#F0F4F8" stroke-width="2"/>
-          <!-- Predicted -->
-          <path d="M50,20 L60,15 L80,18 L100,10" fill="none" stroke="#0D9488" stroke-width="2" stroke-dasharray="2,1"/>
-          <!-- Confidence Band -->
-          <path d="M50,15 L60,10 L80,13 L100,5 L100,15 L80,23 L60,20 L50,25 Z" fill="rgba(13, 148, 136, 0.15)"/>
-        </svg>
+    <!-- Forecast Card -->
+    <div class="forecast-card bg-card">
+      <h3 class="section-title">AI Ensemble Price Forecast — Next 7 Days</h3>
+      
+      <div class="chart-area">
+        <div class="css-chart">
+          <svg viewBox="0 0 100 40" preserveAspectRatio="none" class="chart-svg">
+            <!-- Historical -->
+            <path d="M0,30 L20,25 L40,28 L50,20" fill="none" stroke="#F0F4F8" stroke-width="1.5"/>
+            <!-- Predicted -->
+            <path d="M50,20 L60,16 L70,18 L80,14 L90,12 L100,8" fill="none" stroke="#0D9488" stroke-width="2" stroke-dasharray="2,1"/>
+            <!-- Confidence Band -->
+            <path d="M50,18 L60,10 L70,12 L80,7 L90,5 L100,1 L100,15 L90,19 L80,21 L70,24 L60,22 L50,22 Z" fill="rgba(13, 148, 136, 0.12)"/>
+          </svg>
+        </div>
+      </div>
+      
+      <table class="forecast-table">
+        <thead>
+          <tr>
+            <th>Day</th>
+            <th class="text-right">Predicted Price</th>
+            <th class="text-right">Change% from today</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of forecastDays">
+            <td>{{ item.day }}</td>
+            <td class="text-right font-bold">Rs.{{ item.price | number:'1.2-2' }}</td>
+            <td class="text-right font-bold" [ngClass]="item.change_pct >= 0 ? 'text-success' : 'text-danger'">
+              {{ item.change_pct > 0 ? '+' : '' }}{{ item.change_pct | number:'1.2-2' }}%
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <div class="accuracy-bar">
+        <div class="bar-label">Ensemble Confidence: {{ predictionData.confidence }}%</div>
+        <div class="track">
+          <div class="fill" [style.width.%]="predictionData.confidence"></div>
+        </div>
       </div>
     </div>
     
-    <table class="forecast-table">
-      <thead>
-        <tr>
-          <th>Day</th>
-          <th class="text-right">Predicted Price</th>
-          <th class="text-right">Change% from today</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of forecastDays">
-          <td>{{ item.day }}</td>
-          <td class="text-right font-bold">Rs.{{ item.price | number:'1.2-2' }}</td>
-          <td class="text-right font-bold" [ngClass]="item.change_pct >= 0 ? 'text-success' : 'text-danger'">
-            {{ item.change_pct > 0 ? '+' : '' }}{{ item.change_pct | number:'1.2-2' }}%
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    
-    <div class="accuracy-bar">
-      <div class="bar-label">Model Accuracy: 78%</div>
-      <div class="track">
-        <div class="fill" style="width: 78%"></div>
-      </div>
+    <!-- Models Comparison Card -->
+    <div class="comparison-card bg-card">
+      <h3 class="section-title">Ensemble Model Breakdown (9 Models)</h3>
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Type</th>
+            <th class="text-right">7D Avg Price</th>
+            <th class="text-right">Expected Change%</th>
+            <th class="text-center">Trend</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let model of modelBreakdown">
+            <td class="font-bold">{{ model.label }}</td>
+            <td class="text-muted text-sm">{{ model.category }}</td>
+            <td class="text-right">Rs.{{ model.avgPrice | number:'1.2-2' }}</td>
+            <td class="text-right font-bold" [ngClass]="model.changePct >= 0 ? 'text-success' : 'text-danger'">
+              {{ model.changePct > 0 ? '+' : '' }}{{ model.changePct | number:'1.2-2' }}%
+            </td>
+            <td class="text-center">
+              <span class="badge" [ngClass]="{
+                'badge-success': model.direction === 'BULLISH',
+                'badge-danger': model.direction === 'BEARISH',
+                'badge-neutral': model.direction === 'NEUTRAL'
+              }">{{ model.direction }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+    
   </div>
 
-  <div class="signal-card">
-    <div class="signal-banner" [ngClass]="{
-      'bg-success text-navy': predictionData.signal === 'BUY',
-      'bg-danger text-white': predictionData.signal === 'SELL',
-      'bg-warning text-navy': predictionData.signal === 'HOLD'
-    }">
-      <div class="icon">
-        <span *ngIf="predictionData.signal === 'BUY'">★</span>
-        <span *ngIf="predictionData.signal === 'SELL'">!</span>
-        <span *ngIf="predictionData.signal === 'HOLD'">=</span>
+  <!-- Right Side: Recommendation & Sentiment -->
+  <div class="sidebar-section">
+    
+    <!-- Signal Card -->
+    <div class="signal-card bg-card">
+      <div class="signal-banner" [ngClass]="{
+        'bg-success text-navy': predictionData.signal === 'BUY',
+        'bg-danger text-white': predictionData.signal === 'SELL',
+        'bg-warning text-navy': predictionData.signal === 'HOLD'
+      }">
+        <div class="icon">
+          <span *ngIf="predictionData.signal === 'BUY'">▲ BUY</span>
+          <span *ngIf="predictionData.signal === 'SELL'">▼ SELL</span>
+          <span *ngIf="predictionData.signal === 'HOLD'">■ HOLD</span>
+        </div>
       </div>
-      <h2>{{ predictionData.signal }}</h2>
+      
+      <div class="factor-rows">
+        <div class="row">
+          <span class="label">Signal Source</span>
+          <span class="value text-success">Ensemble Crossover</span>
+        </div>
+        <div class="row">
+          <span class="label">Agreement Rate</span>
+          <span class="value text-success">{{ predictionData.confidence }}%</span>
+        </div>
+        <div class="row" *ngIf="predictionData.last_trained !== 'Not trained'">
+          <span class="label">Last Trained</span>
+          <span class="value text-muted">{{ predictionData.last_trained }}</span>
+        </div>
+      </div>
     </div>
     
-    <div class="factor-rows">
-      <div class="row">
-        <span class="label">RSI</span>
-        <span class="value text-success">45 (Neutral)</span>
+    <!-- Sentiment Card (FinBERT) -->
+    <div class="sentiment-card bg-card" *ngIf="predictionData.sentiment">
+      <h3 class="section-title">FinBERT Market News Sentiment</h3>
+      
+      <!-- Sentiment Overview -->
+      <div class="sentiment-overview">
+        <div class="sentiment-gauge">
+          <div class="score-number" [ngClass]="{
+            'text-success': predictionData.sentiment.label === 'Bullish',
+            'text-danger': predictionData.sentiment.label === 'Bearish',
+            'text-warning': predictionData.sentiment.label === 'Neutral'
+          }">{{ predictionData.sentiment.score > 0 ? '+' : '' }}{{ predictionData.sentiment.score | number:'1.2-2' }}</div>
+          <div class="score-label">{{ predictionData.sentiment.label }} Sentiment</div>
+        </div>
       </div>
-      <div class="row">
-        <span class="label">Volume</span>
-        <span class="value text-success">1.2x avg</span>
+      
+      <!-- Scanned News Titles -->
+      <div class="news-feed">
+        <div class="feed-header">Scanned Headlines ({{ predictionData.sentiment.articles_analyzed }})</div>
+        <div class="news-item" *ngFor="let news of predictionData.sentiment.news">
+          <a [href]="news.link" target="_blank" class="news-title-link">{{ news.title }}</a>
+          <div class="news-meta">
+            <span class="news-publisher">{{ news.publisher }}</span>
+            <span class="badge badge-sm" [ngClass]="{
+              'badge-success': news.label === 'Bullish',
+              'badge-danger': news.label === 'Bearish',
+              'badge-neutral': news.label === 'Neutral'
+            }">{{ news.label }}</span>
+          </div>
+        </div>
       </div>
-      <div class="row">
-        <span class="label">SMA Signal</span>
-        <span class="value text-success">Golden Cross</span>
-      </div>
-      <div class="row">
-        <span class="label">Momentum</span>
-        <span class="value text-success">Positive ▲</span>
-      </div>
+      
+      <p class="disclaimer">FinBERT evaluates market text sentiment. All forecasts are informational. Not financial advice.</p>
     </div>
     
-    <p class="disclaimer">AI predictions are for informational purposes only. Not financial advice.</p>
   </div>
 </div>

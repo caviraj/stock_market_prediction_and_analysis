@@ -16,15 +16,17 @@ def predict_stock(ticker: str):
 def train_models_task(ticker: str):
     ml_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "ml")
     
-    # Train LSTM if TF is available
+    # Locate venv Python interpreter dynamically
+    python_exe = "python"
+    venv_python = os.path.join(os.path.dirname(ml_dir), "venv", "Scripts", "python.exe")
+    if os.path.exists(venv_python):
+        python_exe = venv_python
+        
     from ml.predict_utils import TF_AVAILABLE
     if TF_AVAILABLE:
-        subprocess.run(["python", "train_lstm.py", "--ticker", ticker], cwd=ml_dir)
+        subprocess.run([python_exe, "train_all.py", "--ticker", ticker], cwd=ml_dir)
     else:
-        print(f"Skipping LSTM training for {ticker} because TensorFlow is not installed.")
-    
-    # Train RF
-    subprocess.run(["python", "train_rf.py", "--ticker", ticker], cwd=ml_dir)
+        print(f"Skipping training for {ticker} because TensorFlow is not installed.")
 
 @router.post("/train/{ticker}")
 def train_models(ticker: str, background_tasks: BackgroundTasks):
