@@ -64,9 +64,15 @@ def get_news_sentiment(ticker: str) -> dict:
         hf_failed = False
         
         for item in news_list[:5]: # Analyze top 5 recent articles
-            title = item.get("title", "")
-            publisher = item.get("publisher", "")
-            link = item.get("link", "")
+            content = item.get("content", {}) if "content" in item else item
+            title = content.get("title", "") or item.get("title", "")
+            
+            provider = content.get("provider", {}) if isinstance(content.get("provider"), dict) else {}
+            publisher = provider.get("displayName", "") or content.get("publisher", "") or item.get("publisher", "")
+            
+            canonical_url = content.get("canonicalUrl", {}) if isinstance(content.get("canonicalUrl"), dict) else {}
+            link = canonical_url.get("url", "") or content.get("link", "") or item.get("link", "")
+
             
             score = 0.0
             label = "Neutral"
