@@ -5,8 +5,8 @@ python-jose[cryptography]
 passlib[bcrypt]
 python-multipart
 yfinance
-pandas>=2.0.0,<3.0.0
-numpy>=1.22.0,<2.0.0
+pandas>=2.0.0
+numpy>=2.2.6
 scikit-learn
 pandas-ta==0.4.71b0
 joblib
