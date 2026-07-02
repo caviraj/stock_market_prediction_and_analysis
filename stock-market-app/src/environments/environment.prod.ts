@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://your-stockai-backend.onrender.com'
+  apiUrl: 'https://stock-market-prediction-and-analysis.onrender.com'
 };

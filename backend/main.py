@@ -1,17 +1,26 @@
+import os
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database import engine, Base
 from routers import stock, predict, market, indicators, watchlist, auth_router
 
+load_dotenv()
+
 app = FastAPI(title="StockAI API", version="1.0.0")
 
-# Setup CORS
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
+# Setup CORS origins dynamically
+origins_env = os.getenv("CORS_ORIGINS", "")
+origins = [origin.strip() for origin in origins_env.split(",") if origin.strip()]
+if not origins:
+    origins = [
         "http://localhost:4200",
         "https://your-vercel-app.vercel.app"
-    ],
+    ]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
