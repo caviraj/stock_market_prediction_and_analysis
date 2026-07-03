@@ -7,12 +7,16 @@
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-left: 3px solid var(--accent-primary);
   text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.15s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s, box-shadow 0.3s;
+  
+  // 3D Perspective Setup
+  perspective: 1000px;
+  transform-style: preserve-3d;
   
   &:hover {
-    transform: translateY(-4px) scale(1.01);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4), 0 0 15px rgba(13, 148, 136, 0.15);
-    border-color: rgba(13, 148, 136, 0.3);
+    transform: rotateY(calc(var(--mx, 0) * 12deg)) rotateX(calc(var(--my, 0) * -12deg)) translateY(-4px) scale(1.02);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.5), 0 0 20px rgba(13, 148, 136, 0.25);
+    border-color: rgba(20, 184, 166, 0.5);
   }
   
   .card-header {

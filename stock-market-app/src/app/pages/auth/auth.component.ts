@@ -19,6 +19,7 @@ export class AuthComponent implements AfterViewInit, OnDestroy {
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
   private particles!: THREE.Points;
+  private lines!: THREE.LineSegments;
   private animationFrameId!: number;
   private clock = new THREE.Clock();
   
@@ -141,6 +142,35 @@ export class AuthComponent implements AfterViewInit, OnDestroy {
     this.particles = new THREE.Points(geometry, material);
     this.scene.add(this.particles);
 
+    // Generate indices for connecting lines (constellation network)
+    const lineIndices: number[] = [];
+    for (let x = 0; x < particleCountX; x++) {
+      for (let z = 0; z < particleCountZ; z++) {
+        const idx = x * particleCountZ + z;
+        if (x + 1 < particleCountX) {
+          const rightIdx = (x + 1) * particleCountZ + z;
+          lineIndices.push(idx, rightIdx);
+        }
+        if (z + 1 < particleCountZ) {
+          const downIdx = x * particleCountZ + (z + 1);
+          lineIndices.push(idx, downIdx);
+        }
+      }
+    }
+    geometry.setIndex(lineIndices);
+
+    // Semitransparent glowing link material
+    const lineMaterial = new THREE.LineBasicMaterial({
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.16,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
+    });
+
+    this.lines = new THREE.LineSegments(geometry, lineMaterial);
+    this.scene.add(this.lines);
+
     // Track mouse move for parallax effect
     // We bind it to the left-half container
     const leftHalf = document.querySelector('.left-half');
@@ -196,15 +226,29 @@ export class AuthComponent implements AfterViewInit, OnDestroy {
     // Calculate wave heights
     if (!this.prefersReducedMotion) {
       let index = 0;
+      // Calculate mouse attraction point in grid units
+      const mouseTargetX = this.mouse.x * 6;
+      const mouseTargetZ = -this.mouse.y * 6;
+
       for (let i = 0; i < count; i++) {
         const x = positions[index];
         const z = positions[index + 2];
 
         // Complex wave formula: sine waves based on distance and coordinates
         const dist = Math.sqrt(x * x + z * z);
+        
+        // Calculate distance from grid node to mouse target
+        const dx = x - mouseTargetX;
+        const dz = z - mouseTargetZ;
+        const mouseDist = Math.sqrt(dx * dx + dz * dz);
+        
+        // Symmetrical swell under cursor
+        const gravitySwell = Math.max(0, 2.0 - mouseDist) * 0.35;
+
         positions[index + 1] = Math.sin(x * 1.5 + time * 1.5) * 0.4 +
                                Math.cos(z * 1.5 + time * 1.2) * 0.3 +
-                               Math.sin(dist * 2.0 - time * 2.0) * 0.2;
+                               Math.sin(dist * 2.0 - time * 2.0) * 0.2 +
+                               gravitySwell;
 
         index += 3;
       }
@@ -220,9 +264,12 @@ export class AuthComponent implements AfterViewInit, OnDestroy {
     this.camera.position.y += (this.targetCameraPos.y - this.camera.position.y) * 0.05;
     this.camera.lookAt(0, 0, 0);
 
-    // Gently rotate particle grid
+    // Gently rotate particle grid and lines
     if (!this.prefersReducedMotion) {
       this.particles.rotation.y = time * 0.05;
+      if (this.lines) {
+        this.lines.rotation.y = time * 0.05;
+      }
     }
 
     this.renderer.render(this.scene, this.camera);
@@ -245,6 +292,14 @@ export class AuthComponent implements AfterViewInit, OnDestroy {
     
     if (this.renderer) {
       this.renderer.dispose();
+    }
+    
+    if (this.lines) {
+      if (Array.isArray(this.lines.material)) {
+        this.lines.material.forEach(m => m.dispose());
+      } else {
+        this.lines.material.dispose();
+      }
     }
     
     if (this.particles) {

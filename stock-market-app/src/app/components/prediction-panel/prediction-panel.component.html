@@ -5,10 +5,16 @@
     
     <!-- Forecast Card -->
     <div class="forecast-card bg-card">
-      <h3 class="section-title">AI Ensemble Price Forecast — Next 7 Days</h3>
+      <div class="forecast-header">
+        <h3 class="section-title">AI Ensemble Price Forecast — Next 7 Days</h3>
+        <div class="view-toggle">
+          <button type="button" class="toggle-btn" [class.active]="viewMode === '2D'" (click)="toggleViewMode('2D')">2D View</button>
+          <button type="button" class="toggle-btn" [class.active]="viewMode === '3D'" (click)="toggleViewMode('3D')">3D View</button>
+        </div>
+      </div>
       
       <div class="chart-area">
-        <div class="css-chart">
+        <div class="css-chart" [style.display]="viewMode === '2D' ? 'block' : 'none'">
           <svg viewBox="0 0 100 40" preserveAspectRatio="none" class="chart-svg">
             <!-- Historical -->
             <path d="M0,30 L20,25 L40,28 L50,20" fill="none" stroke="#F0F4F8" stroke-width="1.5"/>
@@ -17,6 +23,11 @@
             <!-- Confidence Band -->
             <path d="M50,18 L60,10 L70,12 L80,7 L90,5 L100,1 L100,15 L90,19 L80,21 L70,24 L60,22 L50,22 Z" fill="rgba(13, 148, 136, 0.12)"/>
           </svg>
+        </div>
+        
+        <div class="three-chart-container" [style.display]="viewMode === '3D' ? 'block' : 'none'">
+          <canvas #threeForecastCanvas class="three-forecast-canvas"></canvas>
+          <div class="chart-hint">Drag to rotate chart grid</div>
         </div>
       </div>
       
