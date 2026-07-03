@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StockCardComponent } from '../stock-card/stock-card.component';
 import { StockService } from '../../services/stock.service';
+import { gsap } from 'gsap';
 
 @Component({
   selector: 'app-stock-grid',
@@ -33,6 +34,18 @@ export class StockGridComponent implements OnInit {
     setTimeout(() => {
       this.topStocks = this.mockStocks;
       this.loading = false;
+      
+      // Wait for Angular to update the DOM, then run GSAP stagger animation
+      setTimeout(() => {
+        gsap.from('.grid-container .stock-card:not(.skeleton)', {
+          opacity: 0,
+          y: 24,
+          scale: 0.95,
+          duration: 0.5,
+          stagger: 0.06,
+          ease: 'power2.out'
+        });
+      }, 50);
     }, 800);
   }
 }
