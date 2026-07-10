@@ -17,6 +17,8 @@ if not os.path.exists(CACHE_DIR):
 TWELVEDATA_API_KEY = os.getenv("TWELVEDATA_API_KEY")
 
 def _format_ticker(ticker: str) -> str:
+    if ticker.startswith('^'):
+        return ticker
     if not ticker.endswith('.NS') and not ticker.endswith('.BO'):
         # Assuming NSE by default as per prompt
         return f"{ticker}.NS"

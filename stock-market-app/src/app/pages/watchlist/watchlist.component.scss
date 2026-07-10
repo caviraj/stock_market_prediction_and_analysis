@@ -118,10 +118,78 @@
   background-color: var(--accent-primary);
   color: white;
   padding: 12px;
-  margin-top: 16px;
+  margin-top: auto;
   font-size: 14px;
+  border: none;
+  border-radius: var(--radius-button);
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   
   &:hover {
     background-color: var(--accent-light);
+  }
+}
+
+.quick-add-form {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background-color: rgba(255, 255, 255, 0.02);
+  border-radius: var(--radius-card);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+
+  input {
+    background-color: var(--bg-primary) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-button);
+    padding: 8px 12px;
+    color: white;
+    font-size: 0.9rem;
+    outline: none;
+
+    &:focus {
+      border-color: var(--accent-primary);
+    }
+  }
+
+  .btn-group {
+    display: flex;
+    gap: 8px;
+
+    button {
+      flex: 1;
+      padding: 6px 12px;
+      border-radius: var(--radius-button);
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .submit-btn {
+      background-color: var(--accent-primary);
+      color: white;
+      border: none;
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+
+    .cancel-btn {
+      background-color: transparent;
+      color: var(--text-muted);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+
+      &:hover {
+        color: white;
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+    }
   }
 }

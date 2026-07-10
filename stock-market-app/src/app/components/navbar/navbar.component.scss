@@ -14,16 +14,46 @@
 }
 
 .nav-left {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+
   .logo {
     display: flex;
     align-items: center;
     gap: 12px;
+    text-decoration: none;
+    cursor: pointer;
     
     .brand-name {
       color: var(--text-primary);
       font-weight: 700;
       font-size: 1.25rem;
       font-family: var(--font-heading);
+    }
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    .nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s;
+      cursor: pointer;
+
+      &:hover {
+        color: var(--text-primary);
+      }
+
+      &.active {
+        color: var(--accent-primary);
+        font-weight: 600;
+      }
     }
   }
 }

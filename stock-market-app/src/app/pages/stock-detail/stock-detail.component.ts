@@ -5,6 +5,7 @@ import { CandlestickChartComponent } from '../../components/candlestick-chart/ca
 import { PredictionPanelComponent } from '../../components/prediction-panel/prediction-panel.component';
 import { TechIndicatorsComponent } from '../../components/tech-indicators/tech-indicators.component';
 import { StockService } from '../../services/stock.service';
+import { WatchlistService } from '../../services/watchlist.service';
 
 @Component({
   selector: 'app-stock-detail',
@@ -19,10 +20,12 @@ export class StockDetailComponent implements OnInit {
   predictionData: any = null;
   indicatorsData: any = null;
   loading = true;
+  isInWatchlist = false;
 
   constructor(
     private route: ActivatedRoute,
-    private stockService: StockService
+    private stockService: StockService,
+    private watchlistService: WatchlistService
   ) {}
 
   ngOnInit() {
@@ -30,8 +33,25 @@ export class StockDetailComponent implements OnInit {
       this.ticker = params.get('ticker') || '';
       if (this.ticker) {
         this.fetchData();
+        this.checkWatchlistStatus();
       }
     });
+  }
+
+  checkWatchlistStatus() {
+    this.watchlistService.watchlist$.subscribe({
+      next: (items) => {
+        this.isInWatchlist = items.some(item => item.ticker === this.ticker);
+      }
+    });
+  }
+
+  toggleWatchlist() {
+    if (this.isInWatchlist) {
+      this.watchlistService.removeFromWatchlist(this.ticker).subscribe();
+    } else {
+      this.watchlistService.addToWatchlist(this.ticker).subscribe();
+    }
   }
 
   fetchData() {

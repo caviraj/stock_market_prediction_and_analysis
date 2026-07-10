@@ -52,6 +52,27 @@
         padding: 2px 8px;
         border-radius: var(--radius-pill);
       }
+
+      .watchlist-btn {
+        background: transparent;
+        border: none;
+        padding: 6px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.1s;
+        outline: none;
+
+        &:hover {
+          background-color: var(--bg-hover);
+        }
+
+        &:active {
+          transform: scale(0.9);
+        }
+      }
     }
     
     .company-name {

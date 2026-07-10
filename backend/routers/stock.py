@@ -1,8 +1,53 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from typing import Optional
+from sqlalchemy.orm import Session
+from database import get_db
+from models.db_models import Prediction
 from ml.fetch_data import fetch_stock_data
 
 router = APIRouter()
+
+@router.get("/list/latest")
+def get_multiple_latest(tickers: str, db: Session = Depends(get_db)):
+    """Fetch latest price, change, change_pct, and cached signal for multiple tickers"""
+    ticker_list = [t.strip() for t in tickers.split(",") if t.strip()]
+    results = []
+    for ticker in ticker_list:
+        try:
+            df = fetch_stock_data(ticker, period="5d")
+            if not df.empty and len(df) >= 2:
+                latest_price = round(float(df["Close"].iloc[-1]), 2)
+                prev_price = round(float(df["Close"].iloc[-2]), 2)
+                change = round(latest_price - prev_price, 2)
+                change_pct = round((change / prev_price) * 100, 2)
+                
+                pred = db.query(Prediction).filter(Prediction.ticker == ticker).order_by(Prediction.created_at.desc()).first()
+                signal = pred.signal if pred else "HOLD"
+                
+                results.append({
+                    "ticker": ticker,
+                    "price": latest_price,
+                    "change": change,
+                    "change_pct": change_pct,
+                    "signal": signal
+                })
+            else:
+                results.append({
+                    "ticker": ticker,
+                    "price": 0.0,
+                    "change": 0.0,
+                    "change_pct": 0.0,
+                    "signal": "HOLD"
+                })
+        except Exception:
+            results.append({
+                "ticker": ticker,
+                "price": 0.0,
+                "change": 0.0,
+                "change_pct": 0.0,
+                "signal": "HOLD"
+            })
+    return results
 
 @router.get("/{ticker}")
 def get_stock_data(ticker: str, period: str = "1y"):

@@ -18,8 +18,11 @@ export interface MarketOverview {
 export class StockService {
   private apiUrl = environment.apiUrl;
 
-
   constructor(private http: HttpClient) { }
+
+  getTopStocks(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/stock/list/latest?tickers=TCS.NS,RELIANCE.NS,HDFCBANK.NS,INFY.NS,ITC.NS,SBIN.NS`);
+  }
 
   getMarketOverview(): Observable<MarketOverview> {
     return this.http.get<MarketOverview>(`${this.apiUrl}/market/overview`);

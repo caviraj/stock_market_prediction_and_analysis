@@ -28,24 +28,45 @@ export class StockGridComponent implements OnInit {
   constructor(private stockService: StockService) {}
 
   ngOnInit() {
-    // In a real scenario, you'd fetch a list of featured/top stocks.
-    // We'll simulate this by using mock data if the API doesn't provide a direct "top stocks" list
-    // Let's use the mock data for now, as the API only returns a specific stock or watchlist.
+    this.stockService.getTopStocks().subscribe({
+      next: (data) => {
+        if (data && data.length > 0) {
+          const names: { [key: string]: string } = {
+            'TCS.NS': 'Tata Consultancy Services',
+            'RELIANCE.NS': 'Reliance Industries Ltd',
+            'HDFCBANK.NS': 'HDFC Bank Ltd',
+            'INFY.NS': 'Infosys Ltd',
+            'ITC.NS': 'ITC Ltd',
+            'SBIN.NS': 'State Bank of India'
+          };
+          this.topStocks = data.map(stock => ({
+            ...stock,
+            name: names[stock.ticker] || stock.ticker.replace('.NS', '')
+          }));
+        } else {
+          this.topStocks = this.mockStocks;
+        }
+        this.loading = false;
+        this.triggerGSAP();
+      },
+      error: () => {
+        this.topStocks = this.mockStocks;
+        this.loading = false;
+        this.triggerGSAP();
+      }
+    });
+  }
+
+  triggerGSAP() {
     setTimeout(() => {
-      this.topStocks = this.mockStocks;
-      this.loading = false;
-      
-      // Wait for Angular to update the DOM, then run GSAP stagger animation
-      setTimeout(() => {
-        gsap.from('.grid-container .stock-card:not(.skeleton)', {
-          opacity: 0,
-          y: 24,
-          scale: 0.95,
-          duration: 0.5,
-          stagger: 0.06,
-          ease: 'power2.out'
-        });
-      }, 50);
-    }, 800);
+      gsap.from('.grid-container .stock-card:not(.skeleton)', {
+        opacity: 0,
+        y: 24,
+        scale: 0.95,
+        duration: 0.5,
+        stagger: 0.06,
+        ease: 'power2.out'
+      });
+    }, 50);
   }
 }

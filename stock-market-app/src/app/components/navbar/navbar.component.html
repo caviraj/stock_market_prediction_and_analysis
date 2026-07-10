@@ -1,12 +1,18 @@
 <nav class="navbar">
   <div class="nav-left">
-    <div class="logo">
+    <a routerLink="/dashboard" class="logo">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M3 3V21H21" stroke="#0D9488" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         <path d="M18 9L13.5 14L9.5 10L4 15.5" stroke="#0D9488" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         <path d="M18 9H13.5V13.5" stroke="#0D9488" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
       <span class="brand-name">StockAI</span>
+    </a>
+    
+    <div class="nav-links">
+      <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">Dashboard</a>
+      <a routerLink="/watchlist" routerLinkActive="active" class="nav-link">Watchlist</a>
+      <a routerLink="/settings" routerLinkActive="active" class="nav-link">Settings</a>
     </div>
   </div>
 
@@ -16,7 +22,7 @@
         <circle cx="11" cy="11" r="8" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         <line x1="16.511" y1="16.511" x2="22" y2="22" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      <input type="text" placeholder="Search stocks... TCS, RELIANCE">
+      <input type="text" placeholder="Search stocks... TCS, RELIANCE" (keyup.enter)="search($event)">
     </div>
   </div>
 
@@ -28,12 +34,12 @@
       </svg>
     </button>
     
-    <button class="icon-btn" aria-label="Watchlist">
+    <a routerLink="/watchlist" class="icon-btn" aria-label="Watchlist">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M19 21L12 16L5 21V5C5 4.46957 5.21071 3.96086 5.58579 3.58579C5.96086 3.21071 6.46957 3 7 3H17C17.5304 3 18.0391 3.21071 18.4142 3.58579C18.7893 3.96086 19 4.46957 19 5V21Z" stroke="#F0F4F8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      <span class="badge">3</span>
-    </button>
+      <span class="badge" *ngIf="watchlistCount > 0">{{ watchlistCount }}</span>
+    </a>
 
     <div class="user-avatar">
       <span>C</span>

@@ -10,7 +10,7 @@
       </div>
       <div class="item-right">
         <div class="price-data">
-          <span class="price">{{ item.price | number:'1.2-2' }}</span>
+          <span class="price">Rs.{{ item.price | number:'1.2-2' }}</span>
           <span class="change" [ngClass]="item.change_pct >= 0 ? 'text-success' : 'text-danger'">
             {{ item.change_pct > 0 ? '+' : '' }}{{ item.change_pct | number:'1.2-2' }}%
           </span>
@@ -28,8 +28,19 @@
     <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M19 21L12 16L5 21V5C5 4.46957 5.21071 3.96086 5.58579 3.58579C5.96086 3.21071 6.46957 3 7 3H17C17.5304 3 18.0391 3.21071 18.4142 3.58579C18.7893 3.96086 19 4.46957 19 5V21Z" stroke="#0D9488" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
-    <p class="text-muted">No stocks added yet. Search above to add.</p>
+    <p class="text-muted">No stocks added yet. Use search or quick-add below.</p>
   </div>
 
-  <button class="add-btn">Add to Watchlist</button>
+  <!-- Quick Add Section -->
+  <div class="quick-add-form" *ngIf="showAddInput">
+    <input type="text" [(ngModel)]="newTicker" placeholder="Enter Ticker (e.g. SBIN)" (keyup.enter)="quickAdd()">
+    <div class="btn-group">
+      <button class="submit-btn" (click)="quickAdd()">Add</button>
+      <button class="cancel-btn" (click)="toggleAddInput()">Cancel</button>
+    </div>
+  </div>
+
+  <button class="add-btn" (click)="toggleAddInput()" *ngIf="!showAddInput">
+    Quick Add Ticker
+  </button>
 </div>
