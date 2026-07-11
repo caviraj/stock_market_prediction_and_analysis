@@ -16,3 +16,4 @@ python-dotenv
 httpx
 aiofiles
 email-validator
+psycopg2-binary

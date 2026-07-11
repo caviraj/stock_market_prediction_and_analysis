@@ -1,0 +1,9 @@
+How to add your own screenshots to the project report:
+
+Place the following image files in this directory (`report_images/`):
+1. `dashboard.png` - Real-time charting / Dashboard view screenshot.
+2. `predictions.png` - ML stock forecasting / Predictions view screenshot.
+3. `sentiment.png` - News sentiment analysis view screenshot.
+
+When you run `generate_report.py`, these images will be embedded into the compiled PDF report (`Stock_Market_Prediction_Report.pdf`).
+If you do not place any images here, the report will display a clean placeholder box indicating where the screenshot belongs.

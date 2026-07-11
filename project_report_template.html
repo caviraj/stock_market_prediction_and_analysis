@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{project_title}} - Project Report</title>
+  <style>
+    /* Reset and Core Layout */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+      font-size: 11pt;
+      line-height: 1.6;
+      color: #1a1a1a;
+      background: #f4f6f8;
+      padding: 20px;
+    }
+
+    /* Print-specific Styling */
+    @media print {
+      body {
+        background: #fff;
+        padding: 0;
+      }
+      .page {
+        margin: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        background: #fff !important;
+        page-break-after: always;
+      }
+    }
+
+    /* A4 Page Setup for screen preview & printing */
+    .page {
+      background: #ffffff;
+      width: 210mm;
+      height: 297mm;
+      padding-top: 25mm;
+      padding-bottom: 20mm;
+      padding-left: 25mm; /* Binding margin */
+      padding-right: 20mm;
+      margin: 20px auto;
+      border: 1px solid #d3d3d3;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Cover Page Setup */
+    .cover-page {
+      padding-top: 30mm;
+      padding-bottom: 30mm;
+      align-items: center;
+      justify-content: space-between;
+      text-align: center;
+    }
+
+    /* Headers and Footers */
+    .page-header {
+      position: absolute;
+      top: 12mm;
+      left: 25mm;
+      right: 20mm;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 3px;
+      font-size: 8.5pt;
+      color: #64748b;
+      display: flex;
+      justify-content: space-between;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .page-footer {
+      position: absolute;
+      bottom: 12mm;
+      left: 25mm;
+      right: 20mm;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 3px;
+      font-size: 8.5pt;
+      color: #64748b;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .page-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      margin-top: 5mm;
+      margin-bottom: 5mm;
+    }
+
+    /* Headings and Typography */
+    h1, h2, h3, h4 {
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: 20pt;
+      line-height: 1.3;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      color: #1e3a8a; /* Academic Deep Blue */
+    }
+
+    h2 {
+      font-size: 15pt;
+      margin-bottom: 10px;
+      padding-bottom: 3px;
+      border-bottom: 2px solid #1e3a8a;
+      color: #1e3a8a;
+    }
+
+    h3 {
+      font-size: 12pt;
+      margin-top: 12px;
+      margin-bottom: 6px;
+      color: #0f172a;
+    }
+
+    p {
+      margin-bottom: 10px;
+      text-align: justify;
+      text-justify: inter-word;
+      font-size: 10.5pt;
+      color: #334155;
+    }
+
+    ul, ol {
+      margin-left: 20px;
+      margin-bottom: 12px;
+      color: #334155;
+      font-size: 10.5pt;
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    /* Highlight Cards and Accents */
+    .accent-box {
+      background: #f8fafc;
+      border-left: 4px solid #1e3a8a;
+      padding: 10px 15px;
+      margin-bottom: 12px;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .accent-box p {
+      margin-bottom: 0;
+      font-style: italic;
+      color: #475569;
+    }
+
+    /* Data Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      margin-bottom: 12px;
+      font-size: 9.5pt;
+    }
+
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 6px 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f1f5f9;
+      color: #1e3a8a;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 9pt;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+
+    /* Code Blocks styling */
+    pre {
+      background: #1e293b;
+      color: #f8fafc;
+      padding: 12px;
+      border-radius: 4px;
+      overflow: hidden;
+      font-family: "Fira Code", Consolas, "Liberation Mono", Courier, monospace;
+      font-size: 8pt;
+      line-height: 1.4;
+      margin-bottom: 12px;
+      border: 1px solid #334155;
+    }
+
+    code {
+      font-family: "Fira Code", Consolas, "Liberation Mono", Courier, monospace;
+      font-size: 9pt;
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+      border-radius: 0;
+    }
+
+    .code-title {
+      font-size: 8pt;
+      font-weight: 600;
+      color: #64748b;
+      margin-bottom: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Screenshot Placeholders */
+    .screenshot-container {
+      border: 2px dashed #cbd5e1;
+      border-radius: 6px;
+      background: #f8fafc;
+      width: 100%;
+      height: 95mm;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      padding: 15px;
+      position: relative;
+    }
+
+    .screenshot-img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .screenshot-placeholder-text {
+      text-align: center;
+      color: #64748b;
+    }
+
+    .screenshot-placeholder-text h3 {
+      color: #475569;
+      margin-bottom: 5px;
+    }
+
+    .screenshot-placeholder-text p {
+      font-size: 9pt;
+      color: #94a3b8;
+      text-align: center;
+    }
+
+    /* Diagram Styles */
+    .architecture-diagram {
+      width: 100%;
+      height: 90mm;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    /* Cover Page Specific Styles */
+    .cover-top h2 {
+      border: none;
+      font-weight: 500;
+      font-size: 13pt;
+      margin-top: 10px;
+      letter-spacing: 2px;
+      color: #475569;
+    }
+
+    .cover-middle {
+      margin: 40mm 0;
+    }
+
+    .cover-middle h1 {
+      font-size: 24pt;
+      color: #1e3a8a;
+      letter-spacing: 0.5px;
+      margin-bottom: 15px;
+    }
+
+    .cover-middle p {
+      font-size: 12pt;
+      font-weight: 500;
+      color: #475569;
+      text-align: center;
+    }
+
+    .cover-details-box {
+      border-top: 2px solid #cbd5e1;
+      border-bottom: 2px solid #cbd5e1;
+      padding: 15px 0;
+      width: 80%;
+      margin: 10px auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      text-align: left;
+    }
+
+    .cover-details-col {
+      padding: 0 15px;
+    }
+
+    .cover-details-col p {
+      font-size: 10pt;
+      margin-bottom: 5px;
+      text-align: left;
+    }
+
+    .cover-bottom {
+      width: 100%;
+    }
+
+    .cover-bottom h3 {
+      font-size: 13pt;
+      color: #1e3a8a;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+    }
+
+    .cover-bottom p {
+      font-size: 10.5pt;
+      text-align: center;
+      color: #475569;
+    }
+
+    /* TOC styling */
+    .toc-table {
+      margin-top: 15mm;
+    }
+    .toc-table td {
+      border: none;
+      border-bottom: 1px dashed #cbd5e1;
+      padding: 8px 0;
+    }
+    .toc-table tr:nth-child(even) {
+      background-color: transparent;
+    }
+    .toc-page-num {
+      text-align: right;
+      font-weight: 600;
+      color: #1e3a8a;
+    }
+
+    /* Declaration Signatures */
+    .sign-row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30mm;
+      width: 100%;
+    }
+    .sign-box {
+      border-top: 1px solid #475569;
+      width: 50mm;
+      text-align: center;
+      padding-top: 5px;
+      font-size: 10pt;
+      color: #475569;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE 1: COVER PAGE -->
+  <div class="page" style="justify-content: space-between; text-align: center; padding-top: 25mm; padding-bottom: 25mm;">
+    <div class="cover-top">
+      <h3>A PROJECT REPORT ON</h3>
+      <h2>{{project_title}}</h2>
+    </div>
+
+    <div class="cover-middle">
+      <p style="font-size: 11pt; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px;">Submitted in partial fulfillment of the requirements for the award of degree of</p>
+      <h3 style="color: #0f172a; font-size: 13pt; margin-bottom: 25px; text-transform: uppercase;">{{degree}}</h3>
+      <p style="font-size: 11pt; margin-bottom: 10px;">Submitted by</p>
+      <h2 style="border: none; font-size: 15pt; margin-bottom: 5px; color: #111827;">{{student_name}}</h2>
+      <p style="font-size: 11pt; letter-spacing: 0.5px;">Register No: <strong>{{registration_number}}</strong></p>
+    </div>
+
+    <div class="cover-bottom">
+      <div style="width: 70px; height: 70px; border: 1.5px solid #1e3a8a; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px auto; font-size: 8pt; font-weight: bold; color: #1e3a8a; text-transform: uppercase;">
+        VSB
+      </div>
+      <h3>DEPARTMENT OF {{department}}</h3>
+      <h3 style="color: #475569; font-size: 12pt; margin-top: 2px;">{{college_name}}</h3>
+      <p style="font-size: 10pt; margin-top: 5px; font-weight: 500; color: #64748b;">ACADEMIC YEAR: {{academic_year}}</p>
+    </div>
+  </div>
+
+  <!-- PAGE 2: CANDIDATE DECLARATION & CERTIFICATE -->
+  <div class="page">
+    <div class="page-header">
+      <span>{{project_title}}</span>
+      <span>CANDIDATE DECLARATION & CERTIFICATE</span>
+    </div>
+    
+    <div class="page-content" style="padding-top: 10mm;">
+      <h2 style="margin-top: 0; margin-bottom: 15px;">CANDIDATE DECLARATION</h2>
+      <p style="line-height: 1.8; margin-bottom: 25px;">
+        I, <strong>{{student_name}}</strong> (Register No: <strong>{{registration_number}}</strong>), student of {{degree}} at <strong>{{college_name}}</strong>, hereby declare that the project work entitled <strong>"{{project_title}}"</strong> is an authentic record of my own work carried out under the guidance of the faculty of the department. This project has not been submitted elsewhere for the award of any other degree, diploma, or title.
+      </p>
+      
+      <div style="display: flex; justify-content: space-between; margin-top: 10mm;">
+        <div>
+          <p>Place: Karur</p>
+          <p>Date: </p>
+        </div>
+        <div style="border-top: 1px solid #475569; width: 60mm; text-align: center; padding-top: 5px; margin-top: 10mm;">
+          <p style="font-weight: 600; color: #0f172a; margin-bottom: 0;">Signature of Student</p>
+        </div>
+      </div>
+
+      <h2 style="margin-top: 20mm; margin-bottom: 15px; border-bottom: 2px solid #1e3a8a; padding-bottom: 3px;">DEPARTMENT CERTIFICATE</h2>
+      <p style="line-height: 1.8; margin-bottom: 15px;">
+        This is to certify that the project report entitled <strong>"{{project_title}}"</strong> is a bona fide record of the work done by <strong>{{student_name}}</strong> (Register No: <strong>{{registration_number}}</strong>) in partial fulfillment of the requirements for the award of the degree of {{degree}} during the academic year {{academic_year}}.
+      </p>
+
+      <div class="sign-row" style="margin-top: 25mm;">
+        <div class="sign-box">
+          <p style="font-weight: 600; color: #0f172a;">Head of Department</p>
+          <p style="font-size: 8.5pt;">{{department}}</p>
+        </div>
+        <div class="sign-box">
+          <p style="font-weight: 600; color: #0f172a;">Internal Examiner</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <span>V.S.B Engineering College</span>
+      <span>Page 2</span>
+    </div>
+  </div>
+
+  <!-- PAGE 3: ACKNOWLEDGMENT & TABLE OF CONTENTS -->
+  <div class="page">
+    <div class="page-header">
+      <span>{{project_title}}</span>
+      <span>ACKNOWLEDGMENT & CONTENTS</span>
+    </div>
+
+    <div class="page-content" style="padding-top: 5mm;">
+      <h2 style="margin-bottom: 10px;">ACKNOWLEDGMENT</h2>
+      <p style="line-height: 1.6; margin-bottom: 15px; font-size: 10pt;">
+        I express my sincere gratitude to the Management and Principal of <strong>{{college_name}}</strong> for providing the necessary facilities and resources to successfully execute this project.
+      </p>
+      <p style="line-height: 1.6; margin-bottom: 15px; font-size: 10pt;">
+        I extend my heartfelt thanks to the Head of Department, <strong>{{department}}</strong>, and all the teaching and non-teaching faculty members of the department who directly or indirectly extended their valuable suggestions and support during the design and development of this platform.
+      </p>
+
+      <h2 style="margin-top: 8mm; margin-bottom: 5px;">TABLE OF CONTENTS</h2>
+      <table class="toc-table">
+        <thead>
+          <tr style="background-color: transparent;">
+            <th style="border: none; text-align: left; padding: 4px 0; color: #1e3a8a;">Section / Title</th>
+            <th style="border: none; text-align: right; padding: 4px 0; color: #1e3a8a;">Page No</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1. Candidate Declaration & Institution Certificate</td>
+            <td class="toc-page-num">2</td>
+          </tr>
+          <tr>
+            <td>2. Acknowledgment & Table of Contents</td>
+            <td class="toc-page-num">3</td>
+          </tr>
+          <tr>
+            <td>3. Section 1: Introduction (Background, Scope, Problem Statement)</td>
+            <td class="toc-page-num">4</td>
+          </tr>
+          <tr>
+            <td>4. Section 2: Project Objectives & System Design Requirements</td>
+            <td class="toc-page-num">5</td>
+          </tr>
+          <tr>
+            <td>5. Section 3: System Modules & Component Description</td>
+            <td class="toc-page-num">6</td>
+          </tr>
+          <tr>
+            <td>6. Section 4: System Architecture Diagram & Data Flow</td>
+            <td class="toc-page-num">7</td>
+          </tr>
+          <tr>
+            <td>7. Section 5: Database Schema Design & Table Relationships</td>
+            <td class="toc-page-num">8</td>
+          </tr>
+          <tr>
+            <td>8. Section 6.1: Implementation - Deep Learning LSTM Model Training</td>
+            <td class="toc-page-num">9</td>
+          </tr>
+          <tr>
+            <td>9. Section 6.2: Implementation - Technical Indicators Engine</td>
+            <td class="toc-page-num">10</td>
+          </tr>
+          <tr>
+            <td>10. Section 6.3: Implementation - FastAPI REST Router Service</td>
+            <td class="toc-page-num">11</td>
+          </tr>
+          <tr>
+            <td>11. Section 7.1: Output Results - Real-Time Dashboard & Watchlist UI</td>
+            <td class="toc-page-num">12</td>
+          </tr>
+          <tr>
+            <td>12. Section 7.2: Output Results - LSTM Stock Forecasting & Sentiment Module</td>
+            <td class="toc-page-num">13</td>
+          </tr>
+          <tr>
+            <td>13. Section 8: Conclusion, Project Scope & References</td>
+            <td class="toc-page-num">14</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="page-footer">
+      <span>V.S.B Engineering College</span>
+      <span>Page 3</span>
+    </div>
+  </div>
+
+  <!-- PAGE 4: SECTION 1: INTRODUCTION -->
+  <div class="page">
+    <div class="page-header">
+      <span>{{project_title}}</span>
+      <span>1. INTRODUCTION</span>
+    </div>
+
+    <div class="page-content" style="padding-top: 5mm;">
+      <h2 style="margin-bottom: 12px;">1. INTRODUCTION</h2>
+      
+      <h3>1.1 Background & Context</h3>
+      <p>
+        The financial markets are complex, non-linear, and highly dynamic systems influenced by numerous micro and macro-economic factors. Over the past decade, the integration of computational algorithms, statistical modelling, and machine learning has transformed financial analysis. Traditional systems relied purely on human intuition and basic charting tools, but modern investment practices demand quantitative, data-driven strategies capable of processing millions of data points in real time.
+      </p>
+      <p>
+        This project, titled <strong>"{{project_title}}"</strong>, addresses this need by providing an integrated, full-stack environment where users can track historical financial asset prices, view automated technical indicator calculations, analyze public market sentiment extracted from news streams, and view predictive model outcomes trained via machine learning algorithms.
+      </p>
+
+      <h3>1.2 Problem Statement</h3>
+      <p>
+        Retail investors face significant barriers when attempting to perform comprehensive financial analysis:
+      </p>
+      <ul style="margin-left: 15px; margin-bottom: 10px;">
+        <li><strong>Fragmented Tools:</strong> Charting, technical analysis, news sentiment, and statistical forecasting exist as isolated services, requiring users to switch between multiple applications.</li>
+        <li><strong>ML Complexity:</strong> Constructing, training, and running complex time-series neural networks (like Long Short-Term Memory models) requires programming expertise and specialized computing environments.</li>
+        <li><strong>Lack of Real-Time Analysis:</strong> Traditional platforms offer static data instead of recalculating indicators dynamically based on the latest market movements.</li>
+      </ul>
+
+      <h3>1.3 Scope of the Project</h3>
+      <p>
+        The scope of this project involves developing a modular full-stack application. It features a lightweight, high-performance visual dashboard (built with Angular and TradingView Charts), connected to a robust ASGI REST API (built with FastAPI). The platform fetches financial feeds from Yahoo Finance, caches active tickers in an SQLite database, calculates technical metrics, computes news sentiment scoring, and runs pre-trained LSTM models to forecast asset prices up to 30 days into the future.
+      </p>
+    </div>
+
+    <div class="page-footer">
+      <span>V.S.B Engineering College</span>
+      <span>Page 4</span>
+    </div>
+  </div>
+
+  <!-- PAGE 5: SECTION 2: OBJECTIVES & REQUIREMENTS -->
+  <div class="page">
+    <div class="page-header">
+      <span>{{project_title}}</span>
+      <span>2. OBJECTIVES & REQUIREMENTS</span>
+    </div>
+
+    <div class="page-content" style="padding-top: 5mm;">
+      <h2 style="margin-bottom: 12px;">2. PROJECT OBJECTIVES & REQUIREMENTS</h2>
+
+      <h3>2.1 Project Objectives</h3>
+      <p>
+        The primary goals of the Stock Market Prediction & Analysis Platform are:
+      </p>
+      <ol style="margin-left: 15px; margin-bottom: 12px;">
+        <li><strong>Unified Analytics:</strong> Consolidate charting, indicators, and ML forecasting into a single dashboard.</li>
+        <li><strong>Deep Learning Integration:</strong> Build and evaluate a recurrent neural network (specifically an LSTM model) to forecast price trends over a 7-day to 30-day forecast horizon.</li>
+        <li><strong>Algorithmic Indicators:</strong> Automatically compute key technical metrics (SMA, EMA, RSI, Bollinger Bands, MACD) directly on data feeds.</li>
+        <li><strong>Market Sentiment Analysis:</strong> Extract sentiment from news feeds to gauge public interest and emotional direction for selected tickers.</li>
+        <li><strong>Resource Efficiency:</strong> Cache downloaded data and model structures locally in an optimized database to prevent redundant API queries.</li>
+      </ol>
+
+      <h3>2.2 System Design Requirements</h3>
+      <div class="accent-box" style="margin-top: 5px; margin-bottom: 10px;">
+        <p><strong>Functional Requirements:</strong></p>
+        <ul style="margin-left: 15px; margin-top: 5px; font-style: normal; font-size: 9.5pt;">
+          <li>Users must be able to search for specific stock tickers (e.g., AAPL, MSFT, GOOGL).</li>
+          <li>The platform must render real-time candlestick charts and overlay technical indicator lines dynamically.</li>
+          <li>The system must run forecasting models and return predictions along with model parameters.</li>
+          <li>Users must have a watchlist page linked to their secure user profile.</li>
+        </ul>
+      </div>
+
+      <div class="accent-box" style="margin-top: 5px; margin-bottom: 10px;">
+        <p><strong>Non-Functional Requirements:</strong></p>
+        <ul style="margin-left: 15px; margin-top: 5px; font-style: normal; font-size: 9.5pt;">
+          <li><strong>Performance:</strong> Backend endpoints must respond in less than 500 milliseconds (excluding initial cold-start model loads).</li>
+          <li><strong>Security:</strong> User authentication details must be securely stored using bcrypt hashing, and API communication secured via JWT tokens.</li>
+          <li><strong>Responsiveness:</strong> The user interface must adapt gracefully to different display sizes (desktops, laptops, and tablets).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <span>V.S.B Engineering College</span>
+      <span>Page 5</span>
+    </div>
+  </div>
+
+  <!-- PAGE 6: SECTION 3: SYSTEM MODULES -->
+  <div class="page">
+    <div class="page-header">
+      <span>{{project_title}}</span>
+      <span>3. SYSTEM MODULES</span>
+    </div>
+
+    <div class="page-content" style="padding-top: 5mm;">
+      <h2 style="margin-bottom: 12px;">3. SYSTEM MODULES & COMPONENT DESCRIPTION</h2>
+      <p>
+        The platform architecture is divided into five specialized, decoupled modules. This design isolates data streams, modeling pipelines, and visual layout concerns.
+      </p>
+
+      <h3>3.1 User Interface Dashboard Module</h3>
+      <p>
+        Developed in <strong>Angular 17.3</strong>, this component serves as the presentation layer. It manages client-side routing, user session state, and watchlist subscriptions. The charting panel embeds the <strong>TradingView Lightweight Charts</strong> library, which draws canvas-based candlestick lines and volume indicators, providing a responsive desktop workspace.
+      </p>
+
+      <h3>3.2 REST API Server Module</h3>
+      <p>
+        Constructed using the <strong>FastAPI</strong> framework in Python. It handles CORS request policies, parses incoming JSON schemas, verifies JWT credentials, and exposes REST endpoints under `/stock`, `/predict`, `/indicators`, and `/auth`. Its asynchronous ASGI design guarantees high concurrent connection throughput.
+      </p>
+
+      <h3>3.3 Machine Learning Pipeline</h3>
+      <p>
+        A dedicated data science pipeline containing three forecasting sub-engines:
+      </p>
+      <ul style="margin-left: 15px; margin-bottom: 8px;">
+        <li><strong>Deep Learning (LSTM & GRU):</strong> Implemented in Keras/TensorFlow. It scales price trends via MinMaxScaler, passes a 60-day historical window into recursive layers, and outputs forecasted pricing steps.</li>
+        <li><strong>Classical ML (Random Forest, XGBoost):</strong> Computes regression offsets to predict direction trends and generate BUY/HOLD/SELL signals.</li>
+        <li><strong>Statistical Models (ARIMA, SARIMAX):</strong> Provides classical time-series statistical baselines.</li>
+      </ul>
+
+      <h3>3.4 Sentiment Analysis Module</h3>
+      <p>
+        Fetches stock-related news articles via public aggregators, extracts titles and descriptions, and runs them through the <strong>VADER Sentiment Analyzer</strong>. It aggregates compound scores to generate sentiment indicators.
+      </p>
+
+      <h3>3.5 Database Cache & Authentication Layer</h3>
+      <p>
+        Utilizes <strong>SQLite</strong> with <strong>SQLAlchemy ORM</strong>. It stores encrypted credentials, logs stock prediction histories, and acts as a local Price Cache to prevent Yahoo Finance API rate limits.
+      </p>
+    </div>
+
+    <div class="page-footer">
+      <span>V.S.B Engineering College</span>
+      <span>Page 6</span>
+    </div>
+  </div>
+
+  <!-- PAGE 7: SECTION 4: SYSTEM ARCHITECTURE -->
+  <div class="page">
+    <div class="page-header">
+      <span>{{project_title}}</span>
+      <span>4. SYSTEM ARCHITECTURE</span>
+    </div>
+
+    <div class="page-content" style="padding-top: 5mm;">
+      <h2 style="margin-bottom: 12px;">4. SYSTEM ARCHITECTURE & DATA FLOW</h2>
+      <p>
+        The diagram below displays the system components and visualizes the network and data boundaries. Communication occurs via HTTP protocols, and local databases cache information for high-speed operation.
+      </p>
+
+      <!-- SVG Architectural Flowchart -->
+      <div class="architecture-diagram">
+        <svg viewBox="0 0 600 280" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <!-- Background Grid (subtle) -->
+          <rect width="100%" height="100%" fill="#f8fafc" rx="6" stroke="#cbd5e1" stroke-width="1"/>
+          
+          <!-- Column 1: Client -->
+          <rect x="20" y="80" width="110" height="120" fill="#eff6ff" stroke="#3b82f6" stroke-width="2" rx="4"/>
+          <text x="75" y="110" font-size="10" font-weight="bold" fill="#1e3a8a" text-anchor="middle">ANGULAR 17</text>
+          <text x="75" y="125" font-size="9" fill="#1e3a8a" text-anchor="middle">SPA Client</text>
+          <rect x="30" y="145" width="90" height="20" fill="#3b82f6" rx="3"/>
+          <text x="75" y="158" font-size="8" fill="#ffffff" font-weight="bold" text-anchor="middle">Lightweight Charts</text>
+          <rect x="30" y="170" width="90" height="20" fill="#3b82f6" rx="3"/>
+          <text x="75" y="183" font-size="8" fill="#ffffff" font-weight="bold" text-anchor="middle">Watchlist Panel</text>
+
+          <!-- HTTP Arrows Client <-> API -->
+          <line x1="130" y1="125" x2="200" y2="125" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+          <text x="165" y="118" font-size="7" fill="#64748b" text-anchor="middle">HTTP Requests</text>
+          <line x1="200" y1="155" x2="130" y2="155" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+          <text x="165" y="167" font-size="7" fill="#64748b" text-anchor="middle">JSON Response</text>
+
+          <!-- Column 2: Backend REST Service -->
+          <rect x="200" y="60" width="160" height="160" fill="#f0fdf4" stroke="#22c55e" stroke-width="2" rx="4"/>
+          <text x="280" y="80" font-size="10" font-weight="bold" fill="#14532d" text-anchor="middle">FASTAPI ASGI BACKEND</text>
+          
+          <rect x="215" y="100" width="130" height="22" fill="#86efac" rx="3"/>
+          <text x="280" y="114" font-size="8.5" font-weight="bold" fill="#14532d" text-anchor="middle">API Routers (REST)</text>
+          
+          <rect x="215" y="130" width="130" height="22" fill="#86efac" rx="3"/>
+          <text x="280" y="144" font-size="8.5" font-weight="bold" fill="#14532d" text-anchor="middle">SQLAlchemy ORM</text>
+
+          <rect x="215" y="160" width="130" height="22" fill="#86efac" rx="3"/>
+          <text x="280" y="174" font-size="8.5" font-weight="bold" fill="#14532d" text-anchor="middle">Indicator Engine</text>
+
+          <rect x="215" y="190" width="130" height="22" fill="#86efac" rx="3"/>
+          <text x="280" y="204" font-size="8.5" font-weight="bold" fill="#14532d" text-anchor="middle">VADER Sentiment Engine</text>
+
+          <!-- Arrows from Backend to DB & ML & Yahoo -->
+          <!-- DB Arrow -->
+          <line x1="360" y1="100" x2="430" y2="100" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+          <!-- ML Arrow -->
+          <line x1="360" y1="140" x2="430" y2="140" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+          <!-- yfinance Arrow -->
+          <line x1="360" y1="180" x2="430" y2="180" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+          <!-- Column 3: External Services & DB -->
+          <!-- SQLite DB -->
+          <rect x="430" y="75" width="130" height="40" fill="#fef3c7" stroke="#d97706" stroke-width="1.5" rx="4"/>
+          <text x="495" y="93" font-size="8.5" font-weight="bold" fill="#78350f" text-anchor="middle">SQLite Database</text>
+          <text x="495" y="105" font-size="7.5" fill="#78350f" text-anchor="middle">(Cache, Watchlist, Users)</text>
+
+          <!-- ML Models -->
+          <rect x="430" y="125" width="130" height="40" fill="#faf5ff" stroke="#a855f7" stroke-width="1.5" rx="4"/>
+          <text x="495" y="142" font-size="8.5" font-weight="bold" fill="#581c87" text-anchor="middle">TensorFlow / LSTM</text>
+          <text x="495" y="154" font-size="7.5" fill="#581c87" text-anchor="middle">(Random Forest & ARIMA)</text>
+
+          <!-- Yahoo Finance API -->
+          <rect x="430" y="175" width="130" height="40" fill="#fff1f2" stroke="#f43f5e" stroke-width="1.5" rx="4"/>
+          <text x="495" y="193" font-size="8.5" font-weight="bold" fill="#881337" text-anchor="middle">yFinance API / Web</text>
+          <text x="495" y="205" font-size="7.5" fill="#881337" text-anchor="middle">(Data & News feeds)</text>
+
+          <!-- Definitions for Marker Arrows -->
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569" />
+            </marker>
+          </defs>
+        </svg>
+      </div>
+
+      <h3>4.2 Data Processing & Communication Flow</h3>
+      <p>
+        The data workflow consists of three stages:
+      </p>
+      <ol style="margin-left: 15px; margin-bottom: 10px;">
+        <li><strong>Ingestion & Caching:</strong> A query for a ticker initiates a lookup in the SQLite local `price_cache` table. If cached records are present and fresh, they are returned. Otherwise, the system fetches historical data from Yahoo Finance, saves it in the database cache, and serves the client.</li>
+        <li><strong>Feature Extraction:</strong> Historical prices are converted into Pandas DataFrames, and indicators (such as RSI, SMA, and Bollinger Bands) are calculated.</li>
+        <li><strong>Inference & Pipeline:</strong> Scaled datasets are fed into the trained LSTM model to output sequential forecasts, which are serialized to JSON and stored in the `predictions` table.</li>
+      </ol>
+    </div>
+
+    <div class="page-footer">
+      <span>V.S.B Engineering College</span>
+      <span>Page 7</span>
+    </div>
+  </div>
+
+  <!-- PAGE 8: SECTION 5: DATABASE DESIGN -->
+  <div class="page">
+    <div class="page-header">
+      <span>{{project_title}}</span>
+      <span>5. DATABASE DESIGN</span>
+    </div>
+
+    <div class="page-content" style="padding-top: 5mm;">
+      <h2 style="margin-bottom: 12px;">5. DATABASE DESIGN & SCHEMA</h2>
+      <p>
+        The SQLite database serves as the local data layer. It caches stock prices to decrease latency and stores user watchlist selections and prediction records.
+      </p>
+
+      <h3>5.1 Users Table (`users`)</h3>
+      <p>
+        Stores authentication credentials and account registration timestamps.
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Field Name</th>
+            <th>Data Type</th>
+            <th>Constraints</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>id</strong></td>
+            <td>INTEGER</td>
+            <td>PRIMARY KEY, AUTOINCREMENT</td>
+            <td>Unique identifier for each user.</td>
+          </tr>
+          <tr>
+            <td><strong>name</strong></td>
+            <td>VARCHAR(100)</td>
+            <td>NOT NULL</td>
+            <td>Full name of the user.</td>
+          </tr>
+          <tr>
+            <td><strong>email</strong></td>
+            <td>VARCHAR(255)</td>
+            <td>UNIQUE, INDEX, NOT NULL</td>
+            <td>Login credential.</td>
+          </tr>
+          <tr>
+            <td><strong>hashed_password</strong></td>
+            <td>VARCHAR(255)</td>
+            <td>NOT NULL</td>
+            <td>Bcrypt hashed password.</td>
+          </tr>
+          <tr>
+            <td><strong>created_at</strong></td>
+            <td>DATETIME</td>
+            <td>DEFAULT CURRENT_TIMESTAMP</td>
+            <td>Record creation timestamp.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>5.2 Watchlist Table (`watchlist`)</h3>
+      <p>
+        Stores user-configured watchlist connections.
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Field Name</th>
+            <th>Data Type</th>
+            <th>Constraints</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>id</strong></td>
+            <td>INTEGER</td>
+            <td>PRIMARY KEY</td>
+            <td>Unique identifier for the row.</td>
+          </tr>
+          <tr>
+            <td><strong>user_id</strong></td>
+            <td>INTEGER</td>
+            <td>FOREIGN KEY (users.id)</td>
+            <td>Link to the user.</td>
+          </tr>
+          <tr>
+            <td><strong>ticker</strong></td>
+            <td>VARCHAR(20)</td>
+            <td>NOT NULL</td>
+            <td>Stock ticker code (e.g., AAPL).</td>
+          </tr>
+          <tr>
+            <td><strong>added_at</strong></td>
+            <td>DATETIME</td>
+            <td>DEFAULT CURRENT_TIMESTAMP</td>
+            <td>Timestamp when added.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size: 8.5pt; color: #64748b; font-style: italic; margin-top: -5px; margin-bottom: 12px;">
+        * Note: A composite unique constraint `(user_id, ticker)` ensures user watchlists have unique entries.
+      </p>
+
+      <h3>5.3 Predictions Table (`predictions`)</h3>
+      <p>
+        Caches predictions generated by machine learning models.
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Field Name</th>
+            <th>Data Type</th>
+            <th>Constraints</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>id</strong></td>
+            <td>INTEGER</td>
+            <td>PRIMARY KEY</td>
+            <td>Unique identifier for the prediction.</td>
+          </tr>
+          <tr>
+            <td><strong>ticker</strong></td>
+            <td>VARCHAR(20)</td>
+            <td>NOT NULL</td>
+            <td>Target asset ticker symbol.</td>
+          </tr>
+          <tr>
+            <td><strong>signal</strong></td>
+            <td>VARCHAR(10)</td>
+            <td>NOT NULL</td>
+            <td>Computed trading action (BUY/HOLD/SELL).</td>
+          </tr>
+          <tr>
+            <td><strong>forecast_json</strong></td>
+            <td>TEXT</td>
+            <td>-</td>
+            <td>JSON array storing predicted values.</td>
+          </tr>
+          <tr>
+            <td><strong>confidence</strong></td>
+            <td>FLOAT</td>
+            <td>-</td>
+            <td>Confidence metrics or accuracy score.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="page-footer">
+      <span>V.S.B Engineering College</span>
+      <span>Page 8</span>
+    </div>
+  </div>
+
+  <!-- PAGE 9: SECTION 6.1: IMPLEMENTATION - DEEP LEARNING MODEL -->
+  <div class="page">
+    <div class="page-header">
+      <span>{{project_title}}</span>
+      <span>6.1 IMPLEMENTATION - DEEP LEARNING MODEL</span>
+    </div>
+
+    <div class="page-content" style="padding-top: 5mm;">
+      <h2 style="margin-bottom: 12px;">6. IMPLEMENTATION - CODING</h2>
+      
+      <h3>6.1 Deep Learning LSTM Network Definition</h3>
+      <p>
+        The script below, from `backend/ml/lstm_model.py`, defines a sequential model featuring stacked LSTM recurrent layers and dropout regularization to predict price points while avoiding overfitting.
+      </p>
+
+      <div class="code-title">File: backend/ml/lstm_model.py (Extract)</div>
+      <pre><code>import os
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import LSTM, Dropout, Dense
+from tensorflow.keras.optimizers import Adam
+
+def build_lstm_model():
+    model = Sequential()
+    
+    # Layer 1: First LSTM layer with 128 units and 60-day historical lookback window
+    model.add(LSTM(units=128, return_sequences=True, input_shape=(60, 1)))
+    model.add(Dropout(0.2)) # Dropout to prevent overfitting
+    
+    # Layer 2: Second LSTM layer returning a single compressed sequence representation
+    model.add(LSTM(units=64, return_sequences=False))
+    model.add(Dropout(0.2))
+    
+    # Layer 3: Fully connected Dense classification layers
+    model.add(Dense(units=32))
+    model.add(Dense(units=1)) # Single continuous output value (predicted price)
+    
+    # Compile model with Mean Squared Error (MSE) loss function and Adam optimizer
+    optimizer = Adam(learning_rate=0.001)
+    model.compile(optimizer=optimizer, loss='mean_squared_error')
+    
+    return model
+
+def save_model(model, ticker: str):
+    path = os.path.join("ml", "saved_models", f"{ticker}_lstm.h5")
+    model.save(path)
+    print(f"Model successfully saved to {path}")</code></pre>
+      <p>
+        The LSTM model processes data in batches, passing historical parameters through memory cell loops to extract temporal associations. The output layer predicts the normalized price for the next trading day.
+      </p>
+    </div>
+
+    <div class="page-footer">
+      <span>V.S.B Engineering College</span>
+      <span>Page 9</span>
+    </div>
+  </div>
+
+  <!-- PAGE 10: SECTION 6.2: IMPLEMENTATION - TECHNICAL INDICATORS -->
+  <div class="page">
+    <div class="page-header">
+      <span>{{project_title}}</span>
+      <span>6.2 IMPLEMENTATION - TECHNICAL INDICATORS ENGINE</span>
+    </div>
+
+    <div class="page-content" style="padding-top: 5mm;">
+      <h2 style="margin-bottom: 12px;">6. IMPLEMENTATION - CODING</h2>
+
+      <h3>6.2 Technical Indicators Computation Engine</h3>
+      <p>
+        The technical indicator engine calculates moving averages, momentum oscillators, and volatility bands on pricing streams. It uses Pandas and Pandas-TA to process datasets.
+      </p>
+
+      <div class="code-title">File: backend/ml/indicators.py (Extract)</div>
+      <pre><code>import pandas as pd
+import pandas_ta as ta
+
+def get_all_indicators(df: pd.DataFrame) -> pd.DataFrame:
+    # Ensure correct columns exist
+    if 'Close' not in df.columns or 'Volume' not in df.columns:
+        raise ValueError("Dataframe must contain Close and Volume columns.")
+    
+    # 1. Simple & Exponential Moving Averages
+    df['SMA_20'] = ta.sma(df['Close'], length=20)
+    df['EMA_50'] = ta.ema(df['Close'], length=50)
+    
+    # 2. Relative Strength Index (RSI - 14 Days)
+    df['RSI_14'] = ta.rsi(df['Close'], length=14)
+    
+    # 3. Moving Average Convergence Divergence (MACD)
+    macd_df = ta.macd(df['Close'], fast=12, slow=26, signal=9)
+    if macd_df is not None:
+        df = pd.concat([df, macd_df], axis=1)
+        
+    # 4. Bollinger Bands (20 periods, 2 standard deviations)
+    bbands_df = ta.bbands(df['Close'], length=20, std=2.0)
+    if bbands_df is not None:
+        df = pd.concat([df, bbands_df], axis=1)
+        
+    # 5. Average True Range (ATR - Volatility indicator)
+    df['ATR_14'] = ta.atr(df['High'], df['Low'], df['Close'], length=14)
+    
+    return df.fillna(0) # Standardize null values from lag calculations</code></pre>
+      <p>
+        These features serve two purposes: they populate indicators in the Angular UI Lightweight Charts layout and supply input data for classification models.
+      </p>
+    </div>
+
+    <div class="page-footer">
+      <span>V.S.B Engineering College</span>
+      <span>Page 10</span>
+    </div>
+  </div>
+
+  <!-- PAGE 11: SECTION 6.3: IMPLEMENTATION - API SERVICE ROUTER -->
+  <div class="page">
+    <div class="page-header">
+      <span>{{project_title}}</span>
+      <span>6.3 IMPLEMENTATION - API SERVICE ROUTER</span>
+    </div>
+
+    <div class="page-content" style="padding-top: 5mm;">
+      <h2 style="margin-bottom: 12px;">6. IMPLEMENTATION - CODING</h2>
+
+      <h3>6.3 Predictions API Router Endpoint</h3>
+      <p>
+        The FastAPI routing service handles predictions. The `/predict/{ticker}` endpoint retrieves cached predictions or executes the ML pipeline to return predictions and news sentiment metrics.
+      </p>
+
+      <div class="code-title">File: backend/routers/predict.py (Extract)</div>
+      <pre><code>from fastapi import APIRouter, HTTPException, Depends
+from sqlalchemy.orm import Session
+from database import get_db
+from models.db_models import Prediction
+from ml.predict_utils import get_predictions
+import json
+
+router = APIRouter()
+
+@router.get("/{ticker}")
+def get_stock_predictions(ticker: str, db: Session = Depends(get_db)):
+    ticker = ticker.upper().strip()
+    
+    # 1. Look for existing cached prediction in the database
+    cached = db.query(Prediction).filter(Prediction.ticker == ticker).first()
+    if cached:
+        return {
+            "ticker": ticker,
+            "signal": cached.signal,
+            "forecast": json.loads(cached.forecast_json),
+            "confidence": cached.confidence,
+            "cached": True
+        }
+        
+    # 2. If cache missed, run the pipeline
+    try:
+        results = get_predictions(ticker)
+        
+        # 3. Store results in SQLite DB
+        new_pred = Prediction(
+            ticker=ticker,
+            signal=results["signal"],
+            forecast_json=json.dumps(results["forecast"]),
+            confidence=results["confidence"]
+        )
+        db.add(new_pred)
+        db.commit()
+        
+        return results
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Pipeline error: {str(e)}")</code></pre>
+      <p>
+        This REST design isolates model execution logic, managing load by retrieving cached items before running models.
+      </p>
+    </div>
+
+    <div class="page-footer">
+      <span>V.S.B Engineering College</span>
+      <span>Page 11</span>
+    </div>
+  </div>
+
+  <!-- PAGE 12: SECTION 7.1: OUTPUT SCREENSHOTS - DASHBOARD -->
+  <div class="page">
+    <div class="page-header">
+      <span>{{project_title}}</span>
+      <span>7.1 OUTPUT RESULTS - DASHBOARD</span>
+    </div>
+
+    <div class="page-content" style="padding-top: 5mm;">
+      <h2 style="margin-bottom: 12px;">7. OUTPUT SCREENSHOTS</h2>
+
+      <h3>7.1 Real-Time Analytics Dashboard & Charts</h3>
+      <p>
+        The image below displays the real-time stock visualization interface. The top section displays real-time candlestick feeds, volume charts, and technical indicator lines, and the sidebar displays the user's watchlist.
+      </p>
+
+      <div class="screenshot-container">
+        <img class="screenshot-img" src="report_images/dashboard.png" alt="Real-Time Analytics Dashboard" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <div class="screenshot-placeholder-text" style="display: none;">
+          <div style="font-size: 32px; margin-bottom: 10px;">📊</div>
+          <h3>Dashboard Interface Screenshot</h3>
+          <p>Double-click to paste or drop your <strong>dashboard.png</strong> file in the <code>report_images/</code> folder.</p>
+          <p style="font-size: 8pt; margin-top: 8px;">Displays: Candlestick chart panel, volume tracking, moving average overlays, and watchlist sidebar.</p>
+        </div>
+      </div>
+      
+      <p style="margin-top: 10px;">
+        The chart uses canvas rendering to allow fluid panning, zooming, and tracking of historical stock trends.
+      </p>
+    </div>
+
+    <div class="page-footer">
+      <span>V.S.B Engineering College</span>
+      <span>Page 12</span>
+    </div>
+  </div>
+
+  <!-- PAGE 13: SECTION 7.2: OUTPUT SCREENSHOTS - FORECASTS & SENTIMENT -->
+  <div class="page">
+    <div class="page-header">
+      <span>{{project_title}}</span>
+      <span>7.2 OUTPUT RESULTS - ML FORECASTS & SENTIMENT</span>
+    </div>
+
+    <div class="page-content" style="padding-top: 5mm;">
+      <h2 style="margin-bottom: 12px;">7. OUTPUT SCREENSHOTS</h2>
+
+      <h3>7.2 Machine Learning Prediction & Sentiment Panel</h3>
+      <p>
+        The prediction interface displays the LSTM model forecasts and news sentiment analysis. The predictions chart displays historical trends alongside forecasted future steps.
+      </p>
+
+      <div class="screenshot-container" style="height: 50mm; margin-bottom: 5mm;">
+        <img class="screenshot-img" src="report_images/predictions.png" alt="ML Price Prediction Chart" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <div class="screenshot-placeholder-text" style="display: none;">
+          <div style="font-size: 24px; margin-bottom: 5px;">🔮</div>
+          <h3>ML Prediction Interface Screenshot</h3>
+          <p>Drop your <strong>predictions.png</strong> file in the <code>report_images/</code> folder.</p>
+        </div>
+      </div>
+
+      <div class="screenshot-container" style="height: 50mm; margin-top: 5mm;">
+        <img class="screenshot-img" src="report_images/sentiment.png" alt="Sentiment Analysis Board" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <div class="screenshot-placeholder-text" style="display: none;">
+          <div style="font-size: 24px; margin-bottom: 5px;">📰</div>
+          <h3>News Sentiment Interface Screenshot</h3>
+          <p>Drop your <strong>sentiment.png</strong> file in the <code>report_images/</code> folder.</p>
+        </div>
+      </div>
+      
+      <p style="font-size: 9.5pt; color: #475569;">
+        The top panel displays the model predictions, and the bottom panel displays aggregated news sentiment, highlighting positive, negative, and neutral classifications.
+      </p>
+    </div>
+
+    <div class="page-footer">
+      <span>V.S.B Engineering College</span>
+      <span>Page 13</span>
+    </div>
+  </div>
+
+  <!-- PAGE 14: SECTION 8: CONCLUSION & REFERENCES -->
+  <div class="page">
+    <div class="page-header">
+      <span>{{project_title}}</span>
+      <span>8. CONCLUSION & REFERENCES</span>
+    </div>
+
+    <div class="page-content" style="padding-top: 5mm;">
+      <h2 style="margin-bottom: 12px;">8. CONCLUSION & REFERENCES</h2>
+
+      <h3>8.1 Conclusion</h3>
+      <p>
+        The <strong>Stock Market Prediction & Analysis Platform</strong> combines quantitative charting tools with machine learning and deep learning models. By implementing stacked LSTM models, calculating technical indicators dynamically, and compiling news sentiment scores, the platform provides a unified tool for financial asset analysis.
+      </p>
+      <p>
+        Caching historical price records and predictions locally helps manage external API limits and minimizes data loading delays.
+      </p>
+
+      <h3>8.2 Limitations and Future Work</h3>
+      <p>
+        Current limitations and planned enhancements include:
+      </p>
+      <ul style="margin-left: 15px; margin-bottom: 15px;">
+        <li><strong>Sentiment Channels:</strong> Expanding sentiment extraction from news headlines to social media data sources.</li>
+        <li><strong>Feature Engineering:</strong> Incorporating macroeconomic indicators (interest rates, inflation) into the deep learning models.</li>
+        <li><strong>Real-time Streaming:</strong> Transitioning REST endpoints to WebSockets for real-time streaming data delivery.</li>
+      </ul>
+
+      <h3>8.3 References</h3>
+      <ul style="margin-left: 15px; margin-bottom: 10px; font-size: 9.5pt; list-style-type: square;">
+        <li>Hochreiter, S., & Schmidhuber, J. (1997). Long Short-Term Memory. <em>Neural Computation</em>, 9(8), 1735-1780.</li>
+        <li>FastAPI Documentation: Asynchronous Python Web Framework - <em>https://fastapi.tiangolo.com/</em></li>
+        <li>Angular Developer Documentation: Component-based Application Architecture - <em>https://angular.dev/</em></li>
+        <li>Yahoo Finance API Library Reference - <em>https://github.com/ranaroussi/yfinance</em></li>
+        <li>Hutto, C. J., & Gilbert, E. (2014). VADER: A Parsimonious Rule-based Model for Sentiment Analysis of Social Media Text. <em>Proceedings of the International AAAI Conference on Web and Social Media</em>.</li>
+      </ul>
+    </div>
+
+    <div class="page-footer">
+      <span>V.S.B Engineering College</span>
+      <span>Page 14</span>
+    </div>
+  </div>
+
+</body>
+</html>
