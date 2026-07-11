@@ -1,9 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-  --bg-primary: #0D1B2A;
-  --bg-card: #162032;
-  --bg-hover: #1E3A4A;
+  --bg-primary: #080E1A; /* Deeper premium dark background */
+  --bg-card: #0F172A;    /* Slate-900 card background */
+  --bg-hover: #1E293B;   /* Slate-800 hover background */
+  
+  --bg-glass: rgba(15, 23, 42, 0.75); /* Glassmorphism fill */
+  --border-glass: rgba(255, 255, 255, 0.08); /* White glass border */
   
   --accent-primary: #0D9488;
   --accent-light: #14B8A6;
@@ -12,17 +15,22 @@
   --status-sell: #EF4444;
   --status-hold: #F59E0B;
   
-  --text-primary: #F0F4F8;
-  --text-muted: #94A3B8;
+  --shadow-glow-buy: 0 0 15px rgba(16, 185, 129, 0.3);
+  --shadow-glow-sell: 0 0 15px rgba(239, 68, 68, 0.3);
+  --shadow-glow-hold: 0 0 15px rgba(245, 158, 11, 0.3);
   
-  --font-heading: 'Inter', 'Trebuchet MS', sans-serif;
-  --font-body: 'Inter', 'Calibri', sans-serif;
+  --text-primary: #F8FAFC; /* Slate-50 main text */
+  --text-muted: #94A3B8;   /* Slate-400 muted text */
   
-  --radius-card: 10px;
+  --font-heading: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  
+  --radius-card: 12px;
   --radius-pill: 9999px;
   --radius-button: 8px;
   
-  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+  --shadow-premium: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 25px rgba(13, 148, 136, 0.05);
 }
 
 * {
@@ -113,3 +121,87 @@ input {
 .bg-success { background-color: var(--status-buy); }
 .bg-danger { background-color: var(--status-sell); }
 .bg-warning { background-color: var(--status-hold); }
+
+/* Glassmorphism Panel styles */
+.glass-panel {
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+/* Pulsing Badge Animations */
+@keyframes pulse-green {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+  70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+@keyframes pulse-red {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  70% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+@keyframes pulse-amber {
+  0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+  70% { box-shadow: 0 0 0 6px rgba(245, 158, 11, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+}
+
+.pulse-buy {
+  animation: pulse-green 2s infinite;
+  border: 1px solid rgba(16, 185, 129, 0.3) !important;
+}
+.pulse-sell {
+  animation: pulse-red 2s infinite;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+}
+.pulse-hold {
+  animation: pulse-amber 2s infinite;
+  border: 1px solid rgba(245, 158, 11, 0.3) !important;
+}
+
+/* Page / Section Entrance Transitions */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-slide-in {
+  animation: fadeSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Shimmer Light Reflection on Hover Buttons */
+.btn-shine-effect {
+  position: relative;
+  overflow: hidden;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 30%;
+    height: 200%;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.13) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(25deg);
+    transition: all 0.55s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+  
+  &:hover::after {
+    left: 130%;
+  }
+}
+

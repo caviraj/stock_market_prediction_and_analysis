@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StockService } from '../../services/stock.service';
 import { RouterModule } from '@angular/router';
+import { gsap } from 'gsap';
 
 @Component({
   selector: 'app-gainers-losers',
@@ -45,12 +46,35 @@ export class GainersLosersComponent implements OnInit {
           this.losers = this.mockLosers;
         }
         this.loading = false;
+        this.triggerGSAP();
       },
       error: () => {
         this.gainers = this.mockGainers;
         this.losers = this.mockLosers;
         this.loading = false;
+        this.triggerGSAP();
       }
     });
+  }
+
+  triggerGSAP() {
+    setTimeout(() => {
+      gsap.from('.table-wrapper', {
+        opacity: 0,
+        y: 16,
+        duration: 0.5,
+        stagger: 0.12,
+        ease: 'power2.out'
+      });
+      
+      gsap.from('.data-table tbody tr', {
+        opacity: 0,
+        x: -12,
+        duration: 0.4,
+        stagger: 0.03,
+        delay: 0.15,
+        ease: 'power1.out'
+      });
+    }, 50);
   }
 }

@@ -10,24 +10,33 @@
 }
 
 .table-wrapper {
-  background-color: var(--bg-card);
+  background-color: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border-glass);
   border-radius: var(--radius-card);
   overflow: hidden;
   box-shadow: var(--shadow-card);
 }
 
 .table-header {
-  padding: 12px 16px;
+  padding: 14px 16px;
   font-weight: 700;
   font-size: 14px;
-  color: white;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border-glass);
   
   &.bg-teal {
-    background-color: var(--accent-primary);
+    background: linear-gradient(90deg, rgba(13, 148, 136, 0.25) 0%, rgba(13, 148, 136, 0.02) 100%);
+    color: var(--accent-light);
+    border-left: 4px solid var(--accent-primary);
   }
   
   &.bg-red {
-    background-color: var(--status-sell);
+    background: linear-gradient(90deg, rgba(239, 68, 68, 0.25) 0%, rgba(239, 68, 68, 0.02) 100%);
+    color: #f87171;
+    border-left: 4px solid var(--status-sell);
   }
 }
 
@@ -52,12 +61,15 @@
   }
   
   tbody tr {
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    
     &:nth-child(even) {
-      background-color: rgba(0, 0, 0, 0.15); /* Alternating row */
+      background-color: rgba(255, 255, 255, 0.015); /* Subtle alternating row */
     }
     
     &:hover {
-      background-color: rgba(255, 255, 255, 0.05);
+      background-color: rgba(255, 255, 255, 0.04);
+      transform: translateX(4px);
     }
   }
   

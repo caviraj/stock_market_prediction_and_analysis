@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { WatchlistService } from '../../services/watchlist.service';
 import { WatchlistItem } from '../../models/stock.model';
+import { gsap } from 'gsap';
 
 @Component({
   selector: 'app-watchlist',
@@ -25,11 +26,25 @@ export class WatchlistComponent implements OnInit {
       next: (items) => {
         this.watchlist = items;
         this.loading = false;
+        this.triggerGSAP();
       },
       error: () => {
         this.loading = false;
+        this.triggerGSAP();
       }
     });
+  }
+
+  triggerGSAP() {
+    setTimeout(() => {
+      gsap.from('.watchlist-row', {
+        opacity: 0,
+        x: 16,
+        duration: 0.45,
+        stagger: 0.05,
+        ease: 'power2.out'
+      });
+    }, 50);
   }
 
   toggleAddInput() {
