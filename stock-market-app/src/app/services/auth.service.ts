@@ -1,27 +1,55 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
+import { createClient } from '@supabase/supabase-js';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = `${environment.apiUrl}/auth`;
+  private supabase = createClient(
+    'https://ugauufqrhlhjyrfqptlv.supabase.co',
+    'sb_publishable_QpS3z27S9K56OVQQIyjHYA_0WMZnk1F'
+  );
 
-
-  constructor(private http: HttpClient) { }
+  constructor() {
+    this.supabase.auth.onAuthStateChange((event, session) => {
+      if (session && session.access_token) {
+        this.setSession(session.access_token);
+      } else if (event === 'SIGNED_OUT') {
+        this.logout();
+      }
+    });
+  }
 
   login(credentials: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/login`, credentials).pipe(
-      tap((res: any) => this.setSession(res.access_token))
+    return from(this.supabase.auth.signInWithPassword({
+      email: credentials.email,
+      password: credentials.password
+    })).pipe(
+      tap((res: any) => {
+        if (res.error) throw res.error;
+        this.setSession(res.data.session.access_token);
+      })
     );
   }
 
   signup(userData: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/signup`, userData).pipe(
-      tap((res: any) => this.setSession(res.access_token))
+    return from(this.supabase.auth.signUp({
+      email: userData.email,
+      password: userData.password,
+      options: {
+        data: {
+          full_name: userData.name
+        }
+      }
+    })).pipe(
+      tap((res: any) => {
+        if (res.error) throw res.error;
+        if (res.data.session) {
+          this.setSession(res.data.session.access_token);
+        }
+      })
     );
   }
 
@@ -34,6 +62,7 @@ export class AuthService {
   }
 
   logout() {
+    this.supabase.auth.signOut();
     localStorage.removeItem('stockai_token');
   }
 
