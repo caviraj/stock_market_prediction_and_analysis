@@ -335,7 +335,8 @@ export class AuthComponent implements AfterViewInit, OnDestroy {
       },
       error: (err) => {
         this.loading = false;
-        this.errorMsg = err.error?.detail || 'Invalid credentials. Please try again.';
+        console.error('Login error details:', err);
+        this.errorMsg = err.message || err.error?.detail || 'Invalid credentials. Please try again.';
       }
     });
   }
@@ -365,7 +366,8 @@ export class AuthComponent implements AfterViewInit, OnDestroy {
       },
       error: (err) => {
         this.loading = false;
-        this.errorMsg = err.error?.detail || 'Error creating account. Please try again.';
+        console.error('Signup error details:', err);
+        this.errorMsg = err.message || err.error?.detail || 'Error creating account. Please try again.';
       }
     });
   }

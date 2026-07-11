@@ -48,6 +48,8 @@ export class AuthService {
         if (res.error) throw res.error;
         if (res.data.session) {
           this.setSession(res.data.session.access_token);
+        } else if (res.data.user) {
+          throw new Error('Signup successful! Please check your email to confirm your account.');
         }
       })
     );
